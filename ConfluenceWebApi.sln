@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfluenceWebApi80", "Src\ConfluenceWebApi80\ConfluenceWebApi80.csproj", "{C3F606DD-A898-4E0C-8358-BBD4E7DCB428}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{AC67D077-5BEC-47BE-8A0B-D340C185C81D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ConfluenceWebApiShare", "Src\ConfluenceWebApiShare\ConfluenceWebApiShare.shproj", "{65EDD697-11D6-4530-BD12-69DF34471F06}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConfluenceWebApi90", "Src\ConfluenceWebApi90\ConfluenceWebApi90.csproj", "{5AEAF9EA-9517-487A-AB03-EEBAC695D7EC}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WebServiceClientShare", "..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.shproj", "{8CAACB04-9656-4B7C-A692-422FCA51474B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{372CD2FB-1C96-4F11-BA95-867EB173229A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelRemover", "Demo\LabelRemover\LabelRemover.csproj", "{677E417F-1EFF-435D-A459-DEF05A3F7762}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C3F606DD-A898-4E0C-8358-BBD4E7DCB428}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F606DD-A898-4E0C-8358-BBD4E7DCB428}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F606DD-A898-4E0C-8358-BBD4E7DCB428}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F606DD-A898-4E0C-8358-BBD4E7DCB428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AEAF9EA-9517-487A-AB03-EEBAC695D7EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AEAF9EA-9517-487A-AB03-EEBAC695D7EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AEAF9EA-9517-487A-AB03-EEBAC695D7EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AEAF9EA-9517-487A-AB03-EEBAC695D7EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{677E417F-1EFF-435D-A459-DEF05A3F7762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{677E417F-1EFF-435D-A459-DEF05A3F7762}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{677E417F-1EFF-435D-A459-DEF05A3F7762}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{677E417F-1EFF-435D-A459-DEF05A3F7762}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C3F606DD-A898-4E0C-8358-BBD4E7DCB428} = {AC67D077-5BEC-47BE-8A0B-D340C185C81D}
+		{65EDD697-11D6-4530-BD12-69DF34471F06} = {AC67D077-5BEC-47BE-8A0B-D340C185C81D}
+		{5AEAF9EA-9517-487A-AB03-EEBAC695D7EC} = {AC67D077-5BEC-47BE-8A0B-D340C185C81D}
+		{8CAACB04-9656-4B7C-A692-422FCA51474B} = {AC67D077-5BEC-47BE-8A0B-D340C185C81D}
+		{677E417F-1EFF-435D-A459-DEF05A3F7762} = {372CD2FB-1C96-4F11-BA95-867EB173229A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF383AFD-96E8-47AD-8555-EDD51CDB3B7D}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Src\ConfluenceWebApiShare\ConfluenceWebApiShare.projitems*{5aeaf9ea-9517-487a-ab03-eebac695d7ec}*SharedItemsImports = 5
+		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{5aeaf9ea-9517-487a-ab03-eebac695d7ec}*SharedItemsImports = 5
+		Src\ConfluenceWebApiShare\ConfluenceWebApiShare.projitems*{65edd697-11d6-4530-bd12-69df34471f06}*SharedItemsImports = 13
+		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{8caacb04-9656-4b7c-a692-422fca51474b}*SharedItemsImports = 13
+		Src\ConfluenceWebApiShare\ConfluenceWebApiShare.projitems*{c3f606dd-a898-4e0c-8358-bbd4e7dcb428}*SharedItemsImports = 5
+		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{c3f606dd-a898-4e0c-8358-bbd4e7dcb428}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

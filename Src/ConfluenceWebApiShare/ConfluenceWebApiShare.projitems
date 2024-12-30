@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>65edd697-11d6-4530-bd12-69df34471f06</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ConfluenceWebApi</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ChildrenModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\FolderModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\LinksModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ListModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ContentModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\SourceGenerationContext.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ConfluenceModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\ConfluenceService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Confluence.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\SpaceModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\UserModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
+  </ItemGroup>
+</Project>
