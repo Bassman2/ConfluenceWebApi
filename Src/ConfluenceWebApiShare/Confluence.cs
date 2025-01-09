@@ -4,17 +4,13 @@ public sealed class Confluence : IDisposable
 {
     private ConfluenceService? service;
 
-    public Confluence(string storeKey)
-    {
-        var key = WebServiceClient.Store.KeyStore.Key(storeKey)!;
-        string host = key.Host!;
-        string token = key.Token!;
-        service = new ConfluenceService(new Uri(host), token);
-    }
+    public Confluence(string storeKey, string appName)
+       : this(new Uri(KeyStore.Key(storeKey)?.Host!), KeyStore.Key(storeKey)!.Token!, appName)
+    { }
 
-    public Confluence(Uri host, string apikey)
+    public Confluence(Uri host, string token, string appName)
     {
-        service = new ConfluenceService(host, apikey);
+        service = new ConfluenceService(host, new BearerAuthenticator(token), appName);
     }
 
     public void Dispose()

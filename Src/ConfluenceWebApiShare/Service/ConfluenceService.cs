@@ -2,8 +2,8 @@
 
 // https://developer.atlassian.com/server/confluence/rest/v920/api-group-space/#api-group-space
 
-internal sealed class ConfluenceService(Uri host, string apiKey) 
-    : JsonService(host, SourceGenerationContext.Default, new BearerAuthenticator(apiKey))
+internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator, string appName)
+    : JsonService(host, authenticator, appName, SourceGenerationContext.Default)
 {
     protected override string? AuthenticationTestUrl => null;
 
