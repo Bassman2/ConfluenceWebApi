@@ -1,0 +1,1 @@
+nuget pack ConfluenceWebApi.nuspec -properties Configuration=Release
