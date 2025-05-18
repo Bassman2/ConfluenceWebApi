@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package >
   <metadata>
-    <id>ConfluenceWebApiWebApi</id>
+    <id>ConfluenceWebApi</id>
     <version>0.0.1</version>
     <title>Confluence Web Api</title>
     <authors>Ralf Beckers</authors>
