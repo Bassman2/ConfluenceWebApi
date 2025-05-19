@@ -2,11 +2,16 @@
 
 // https://developer.atlassian.com/server/confluence/rest/v920/api-group-space/#api-group-space
 
-internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator, string appName)
-    : JsonService(host, authenticator, appName, SourceGenerationContext.Default)
+internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator, string appName) : JsonService(host, authenticator, appName, SourceGenerationContext.Default)
 {
     protected override string? AuthenticationTestUrl => null;
 
+    protected override void InitializeClient(HttpClient client)
+    {
+        client.DefaultRequestHeaders.Add("X-Atlassian-Token", "no-check");
+        base.InitializeClient(client);
+        client.DefaultRequestHeaders.MaxForwards = 5;
+    }
 
     #region Content Labels
 
@@ -16,6 +21,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     }
 
     #endregion
+ 
     #region Content Resource
 
     public IAsyncEnumerable<ContentModel> SearchContentAsync(string cql, string? expand, CancellationToken cancellationToken)
@@ -102,6 +108,27 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     {
         var res = await GetFromJsonAsync<UserModel>("/rest/api/user/current", cancellationToken);
         return res;
+    }
+
+    #endregion
+
+    #region Export
+
+    public async Task ExportPdfAsync(string space, int pageId, string filePath, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(space, nameof(space));
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageId, nameof(pageId));
+        ArgumentNullException.ThrowIfNullOrEmpty(filePath, nameof(filePath));
+
+        await DownloadLocationAsync($"spaces/{space}/pdfpageexport.action?pageId={pageId}", filePath, cancellationToken);
+    }
+
+    public async Task<Stream> ExportPdfStreamAsync(string space, int pageId, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(space, nameof(space));
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageId, nameof(pageId));
+
+        return await GetFromStreamAsync($"spaces/{space}/pdfpageexport.action?pageId={pageId}", cancellationToken);
     }
 
     #endregion
