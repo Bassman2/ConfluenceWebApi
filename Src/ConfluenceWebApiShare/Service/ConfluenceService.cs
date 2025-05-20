@@ -52,9 +52,9 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region Space
 
-    public IAsyncEnumerable<SpaceModel> GetContentsInSpaceAsync(string spaceKey, CancellationToken cancellationToken)
+    public IAsyncEnumerable<ContentModel> GetContentsInSpaceAsync(string spaceKey, Depth depth, CancellationToken cancellationToken)
     {
-        return GetYieldAsync<SpaceModel>("/rest/api/space/{spaceKey}/content?expand=history", cancellationToken);
+        return GetYieldAsync<ContentModel>($"/rest/api/space/{spaceKey}/content?expand=history&depth={depth}", cancellationToken);
     }
 
     public async Task<SpaceModel?> GetSpaceAsync(string spaceKey, CancellationToken cancellationToken)
@@ -156,7 +156,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         while (true)
         { 
             ListModel<T>? resp = await GetFromJsonAsync<ListModel<T>>(uri, cancellationToken, memberName);
-            foreach (T item in resp!.Results!)
+            foreach (T item in resp!.Page!.Results!)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -169,14 +169,21 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
             {
                 yield break;
             }
-
-            if (resp.Size == 0)
-            {
+            
+            if (resp!.Page!.Size < resp!.Page!.Limit)
+            { 
                 yield break;
             }
 
-            start += resp.Size;
-            uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Limit}&start={start}";
+            //start += resp!.Page!.Results!.Count;
+            start += resp!.Page!.Size;
+
+            if (resp!.Page!.Size != resp!.Page.Results.Count)
+            {
+                throw new Exception("XXXXXXXXXXXXXX");
+            }
+
+            uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Page.Limit}&start={start}";
         }
     }
 

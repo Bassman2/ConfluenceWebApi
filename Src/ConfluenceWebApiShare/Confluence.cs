@@ -1,4 +1,7 @@
-﻿namespace ConfluenceWebApi;
+﻿using System.Reflection.Emit;
+using System.Threading;
+
+namespace ConfluenceWebApi;
 
 public sealed class Confluence : IDisposable
 {
@@ -28,6 +31,23 @@ public sealed class Confluence : IDisposable
         }
         GC.SuppressFinalize(this);
     }
+
+    #region Space
+
+    public async IAsyncEnumerable<Content> GetContentsInSpaceAsync(string spaceKey, Depth depth = Depth.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetContentsInSpaceAsync(spaceKey, depth, cancellationToken);
+        await foreach (var item in res)
+        {
+            //if (cancellationToken.IsCancellationRequested) yield break;
+
+            yield return item.CastModel<Content>()!;
+        }
+    }
+
+    #endregion
 
     public async Task DeleteLabelAsync(string id, string label, CancellationToken cancellationToken = default)
     {
