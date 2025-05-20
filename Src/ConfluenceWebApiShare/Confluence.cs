@@ -10,7 +10,13 @@ public sealed class Confluence : IDisposable
 
     public Confluence(Uri host, string token, string appName)
     {
-        service = new ConfluenceService(host, new BearerAuthenticator(token), appName);
+        service = new ConfluenceService(host,
+            new MultiAuthenticator(           
+                new BearerAuthenticator(token) 
+                //, new Basic2Authenticator(token)
+                
+                ),
+            appName);
     }
 
     public void Dispose()
@@ -37,17 +43,17 @@ public sealed class Confluence : IDisposable
         return service.SearchContentAsync(sql, expand, cancellationToken); 
     }
 
-    public async Task ExportPdfAsync(string space, int pageId, string filePath, CancellationToken cancellationToken = default)
+    public async Task ExportPdfAsync(int pageId, string filePath, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
-        await service.ExportPdfAsync(space, pageId, filePath, cancellationToken);
+        await service.ExportPdfAsync(pageId, filePath, cancellationToken);
     }
 
-    public async Task<Stream> ExportPdfStreamAsync(string space, int pageId, CancellationToken cancellationToken = default)
+    public async Task<Stream> ExportPdfStreamAsync(int pageId, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
-        return await service.ExportPdfStreamAsync(space, pageId, cancellationToken);
+        return await service.ExportPdfStreamAsync(pageId, cancellationToken);
     }
 }

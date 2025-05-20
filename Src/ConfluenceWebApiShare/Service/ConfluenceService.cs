@@ -8,9 +8,10 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     protected override void InitializeClient(HttpClient client)
     {
-        client.DefaultRequestHeaders.Add("X-Atlassian-Token", "no-check");
         base.InitializeClient(client);
-        client.DefaultRequestHeaders.MaxForwards = 5;
+        client.DefaultRequestHeaders.Add("X-Atlassian-Token", "no-check");
+                                         
+        //client.DefaultRequestHeaders.MaxForwards = 5;
     }
 
     #region Content Labels
@@ -114,21 +115,36 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region Export
 
-    public async Task ExportPdfAsync(string space, int pageId, string filePath, CancellationToken cancellationToken)
+    // https://support.atlassian.com/confluence/kb/rest-api-to-export-and-download-a-page-in-pdf-format/
+
+    public async Task ExportPdfAsync(int pageId, string filePath, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNullOrEmpty(space, nameof(space));
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageId, nameof(pageId));
         ArgumentNullException.ThrowIfNullOrEmpty(filePath, nameof(filePath));
 
-        await DownloadLocationAsync($"spaces/{space}/pdfpageexport.action?pageId={pageId}", filePath, cancellationToken);
+        await DownloadLocationAsync($"spaces/flyingpdf/pdfpageexport.action?pageId={pageId}", filePath, cancellationToken);
     }
 
-    public async Task<Stream> ExportPdfStreamAsync(string space, int pageId, CancellationToken cancellationToken)
+    public async Task<Stream> ExportPdfStreamAsync(int pageId, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNullOrEmpty(space, nameof(space));
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageId, nameof(pageId));
 
-        return await GetFromStreamAsync($"spaces/{space}/pdfpageexport.action?pageId={pageId}", cancellationToken);
+        return await GetFromStreamAsync($"spaces/flyingpdf/pdfpageexport.action?pageId={pageId}", cancellationToken);
+    }
+
+    public async Task ExportWordAsync(int pageId, string filePath, CancellationToken cancellationToken)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageId, nameof(pageId));
+        ArgumentNullException.ThrowIfNullOrEmpty(filePath, nameof(filePath));
+
+        await DownloadLocationAsync($"exportword?pageId={pageId}", filePath, cancellationToken);
+    }
+
+    public async Task<Stream> ExportWordStreamAsync(int pageId, CancellationToken cancellationToken)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageId, nameof(pageId));
+
+        return await GetFromStreamAsync($"exportword?pageId={pageId}", cancellationToken);
     }
 
     #endregion
