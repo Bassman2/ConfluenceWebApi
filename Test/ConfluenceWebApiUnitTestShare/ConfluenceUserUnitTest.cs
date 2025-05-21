@@ -11,7 +11,7 @@ public class ConfluenceUserUnitTest : ConfluenceBaseUnitTest
 
         Assert.IsNotNull(item);
         Assert.AreEqual("known", item.Type, "Type");
-        Assert.AreEqual("bs", item.Username, "Username");
+        Assert.AreEqual(testLogin, item.Username, "Username");
         Assert.AreEqual("55df232345d0a0850145d0bccde005c1", item.UserKey, "UserKey");
 
         Assert.IsNotNull(item.ProfilePicture);
@@ -20,6 +20,6 @@ public class ConfluenceUserUnitTest : ConfluenceBaseUnitTest
         Assert.AreEqual(48, item.ProfilePicture.Height, "ProfilePicture.Height");
         Assert.IsFalse(item.ProfilePicture.IsDefault, "ProfilePicture.IsDefault");
 
-        Assert.AreEqual("Beckers, Ralf", item.DisplayName, "DisplayName");
+        Assert.AreEqual(testUser, item.DisplayName, "DisplayName");
     }
 }

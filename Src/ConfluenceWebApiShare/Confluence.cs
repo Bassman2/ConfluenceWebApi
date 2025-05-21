@@ -31,6 +31,18 @@ public sealed class Confluence : IDisposable
         GC.SuppressFinalize(this);
     }
 
+    #region Access Mode
+
+    public async Task<string?> GetAccessModeStatusAsync(CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = await service.GetAccessModeStatusAsync(cancellationToken);
+        return res?.Trim('"');
+    }
+
+    #endregion
+
     #region Space
 
     public async IAsyncEnumerable<Content> GetContentsInSpaceAsync(string spaceKey, Depth depth = Depth.All, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -94,12 +106,18 @@ public sealed class Confluence : IDisposable
         await service.DeleteLabelAsync(id, label, cancellationToken);
     }
 
+    #region Content Resource
+
     public IAsyncEnumerable<ContentModel> SearchContentAsync(string sql, string? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
         return service.SearchContentAsync(sql, expand, cancellationToken); 
     }
+
+    #endregion
+
+    #region Export
 
     public async Task ExportPdfAsync(int pageId, string filePath, CancellationToken cancellationToken = default)
     {
@@ -114,4 +132,6 @@ public sealed class Confluence : IDisposable
 
         return await service.ExportPdfStreamAsync(pageId, cancellationToken);
     }
+
+    #endregion
 }

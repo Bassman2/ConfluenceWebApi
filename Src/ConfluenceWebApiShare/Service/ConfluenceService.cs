@@ -14,6 +14,16 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         //client.DefaultRequestHeaders.MaxForwards = 5;
     }
 
+    #region Access Mode
+
+    public async Task<string?> GetAccessModeStatusAsync(CancellationToken cancellationToken)
+    {
+        var res = await GetStringAsync("/rest/api/accessmode", cancellationToken);
+        return res;
+    }
+
+    #endregion
+
     #region Content Labels
 
     public async Task DeleteLabelAsync(string id, string label, CancellationToken cancellationToken)
@@ -27,9 +37,10 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     public IAsyncEnumerable<ContentModel> SearchContentAsync(string cql, string? expand, CancellationToken cancellationToken)
     {
-        expand = string.IsNullOrEmpty(expand) ? "" : $"&expand={expand}";
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(cql, "cql");
 
-        return GetYieldAsync<ContentModel>($"/rest/api/content/search?cql={cql}{expand}", cancellationToken);
+        var req = CombineUrl("/rest/api/content/search", ("cql", cql), ("expand", expand));
+        return GetYieldAsync<ContentModel>(req, cancellationToken);
     }
 
     #endregion
@@ -173,6 +184,8 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #endregion
 
+    #region private
+
     private async IAsyncEnumerable<T> GetYieldAsync<T>(string requestUri, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where T : class
     {
         string uri = requestUri;
@@ -209,6 +222,8 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
             uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Page.Limit}&start={start}";
         }
+
+        #endregion
     }
 
 }

@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Depth.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Types.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProfilePicture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\AccessModeStatusModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ChildrenModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ExpandableModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\FolderModel.cs" />
