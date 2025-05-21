@@ -58,7 +58,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     public IAsyncEnumerable<ContentModel> SearchContentAsync(string cql, string? expand, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(cql, "cql");
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(cql, nameof(cql));
 
         var req = CombineUrl("/rest/api/content/search", ("cql", cql), ("expand", expand));
         return GetYieldAsync<ContentModel>(req, cancellationToken);
@@ -82,7 +82,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     public IAsyncEnumerable<ContentModel> GetContentsInSpaceAsync(string spaceKey, Depth depth, string? expand, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, "spaceKey");
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, nameof(spaceKey));
 
         var req = CombineUrl("/rest/api/space", spaceKey, "content", ("depth", depth), ("expand", expand));
         return GetYieldAsync<ContentModel>(req, cancellationToken);
@@ -91,7 +91,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     public IAsyncEnumerable<ContentModel> GetContentsByTypeAsync(string spaceKey, Types type, string? expand, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, "spaceKey");
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, nameof(spaceKey));
 
         var req = CombineUrl("/rest/api/space", spaceKey, "content/page", ("type", type), ("expand", expand));
         return GetYieldAsync<ContentModel>(req, cancellationToken);
@@ -117,7 +117,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     public async Task<SpaceModel?> GetSpaceAsync(string spaceKey, string? expand, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, "spaceKey");
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, nameof(spaceKey));
 
         var req = CombineUrl("/rest/api/space", spaceKey, ("expand", expand));
         var res = await GetFromJsonAsync<SpaceModel>(req, cancellationToken);
@@ -127,7 +127,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     public async Task DeleteSpaceAsync(string spaceKey, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, "spaceKey");
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, nameof(spaceKey));
 
         var req = CombineUrl("/rest/api/space", spaceKey);
         await DeleteAsync(req, cancellationToken);
