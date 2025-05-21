@@ -121,6 +121,8 @@ public sealed class Confluence : IDisposable
         await service.DeleteLabelAsync(id, label, cancellationToken);
     }
 
+    #region Content Resource
+
     /// <summary>
     /// Searches for content in Confluence using a CQL (Confluence Query Language) query.
     /// </summary>
@@ -128,7 +130,6 @@ public sealed class Confluence : IDisposable
     /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>An asynchronous stream of <see cref="ContentModel"/> objects that match the query.</returns>
-    #region Content Resource
 
     public IAsyncEnumerable<ContentModel> SearchContentAsync(string sql, string? expand = null, CancellationToken cancellationToken = default)
     {
