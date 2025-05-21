@@ -34,11 +34,24 @@ public sealed class Confluence : IDisposable
 
     #region Space
 
-    public async IAsyncEnumerable<Content> GetContentsInSpaceAsync(string spaceKey, Depth depth = Depth.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetContentsInSpaceAsync(string spaceKey, Depth depth = Depth.All, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
-        var res = service.GetContentsInSpaceAsync(spaceKey, depth, cancellationToken);
+        var res = service.GetContentsInSpaceAsync(spaceKey, depth, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            //if (cancellationToken.IsCancellationRequested) yield break;
+
+            yield return item.CastModel<Content>()!;
+        }
+    }
+
+    public async IAsyncEnumerable<Content> GetContentsByTypeAsync(string spaceKey, Types type = Types.Page, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetContentsByTypeAsync(spaceKey, type, expand, cancellationToken);
         await foreach (var item in res)
         {
             //if (cancellationToken.IsCancellationRequested) yield break;

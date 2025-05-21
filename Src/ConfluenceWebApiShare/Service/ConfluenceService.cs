@@ -52,16 +52,24 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region Space
 
-    public IAsyncEnumerable<ContentModel> GetContentsInSpaceAsync(string spaceKey, Depth depth, CancellationToken cancellationToken)
+    public IAsyncEnumerable<ContentModel> GetContentsInSpaceAsync(string spaceKey, Depth depth, string? expand, CancellationToken cancellationToken)
     {
-        return GetYieldAsync<ContentModel>($"/rest/api/space/{spaceKey}/content?expand=history&depth={depth}", cancellationToken);
+        var req = CombineUrl("/rest/api/space", spaceKey, "content", ("depth", depth), ("expand", expand));
+        return GetYieldAsync<ContentModel>(req, cancellationToken);
     }
 
-    public async Task<SpaceModel?> GetSpaceAsync(string spaceKey, CancellationToken cancellationToken)
+    
+    public IAsyncEnumerable<ContentModel> GetContentsByTypeAsync(string spaceKey, Types type, string? expand, CancellationToken cancellationToken)
     {
-        var res = await GetFromJsonAsync<SpaceModel?>($"/rest/api/space/{spaceKey}", cancellationToken);
-        return res;
+        var req = CombineUrl("/rest/api/space", spaceKey, "content/page", ("type", type), ("expand", expand));
+        return GetYieldAsync<ContentModel>(req, cancellationToken);
     }
+
+    //public async Task<SpaceModel?> GetSpaceAsync(string spaceKey, CancellationToken cancellationToken)
+    //{
+    //    var res = await GetFromJsonAsync<SpaceModel?>($"/rest/api/space/{spaceKey}", cancellationToken);
+    //    return res;
+    //}
 
     //public async Task<List<SpaceModel>?> GetSpacesAsync(CancellationToken cancellationToken)
     //{
@@ -75,11 +83,12 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     //    return res;
     //}
 
-    //public async Task<SpaceModel?> GetSpaceAsync(int id, CancellationToken cancellationToken)
-    //{
-    //    var res = await GetFromJsonAsync<SpaceModel>($"{prefix}/spaces/{id}", cancellationToken);
-    //    return res;
-    //}
+    public async Task<SpaceModel?> GetSpaceAsync(string spaceKey, string? expand, CancellationToken cancellationToken)
+    {
+        var req = CombineUrl("/rest/api/spaces", spaceKey, ("expand", expand));
+        var res = await GetFromJsonAsync<SpaceModel>(req, cancellationToken);
+        return res;
+    }
 
     #endregion
 
