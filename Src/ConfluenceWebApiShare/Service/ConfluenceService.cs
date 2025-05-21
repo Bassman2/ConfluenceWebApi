@@ -24,6 +24,25 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #endregion
 
+    // Admin Group
+
+    // Admin User
+
+    // Attachments
+
+    // Backup and Restore
+
+    // Category
+
+    // Child Content
+
+    
+
+    // Content Blueprint
+    // Content Body
+
+    // Content Descendant
+
     #region Content Labels
 
     public async Task DeleteLabelAsync(string id, string label, CancellationToken cancellationToken)
@@ -32,7 +51,9 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     }
 
     #endregion
- 
+
+    // Content Property
+
     #region Content Resource
 
     public IAsyncEnumerable<ContentModel> SearchContentAsync(string cql, string? expand, CancellationToken cancellationToken)
@@ -45,21 +66,17 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #endregion
 
-    #region Children
 
-    //public async Task<ChildrenModel?> GetChildPagesAsync(int id, CancellationToken cancellationToken)
-    //{
-    //    var res = await GetFromJsonAsync<ChildrenModel>($"{prefix}/pages/{id}/children", cancellationToken);
-    //    return res;
-    //}
-
-    //public async Task<ChildrenModel?> GetChildCustomContentAsync(int id, CancellationToken cancellationToken)
-    //{
-    //    var res = await GetFromJsonAsync<ChildrenModel>($"/rest/api/custom-content/{id}/children", cancellationToken);
-    //    return res;
-    //}
-
-    #endregion
+    // Content Restrictions
+    // Content Version
+    // Content Watchers
+    // GlobalColorScheme
+    // Group
+    // Instance Metrics
+    // Label
+    // Long Task
+    // Search
+    // Server Information
 
     #region Space
 
@@ -71,7 +88,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         return GetYieldAsync<ContentModel>(req, cancellationToken);
     }
 
-    
+
     public IAsyncEnumerable<ContentModel> GetContentsByTypeAsync(string spaceKey, Types type, string? expand, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, "spaceKey");
@@ -105,7 +122,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         var req = CombineUrl("/rest/api/space", spaceKey, ("expand", expand));
         var res = await GetFromJsonAsync<SpaceModel>(req, cancellationToken);
         return res;
-        
+
     }
 
     public async Task DeleteSpaceAsync(string spaceKey, CancellationToken cancellationToken)
@@ -118,25 +135,11 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #endregion
 
-    #region Folder
-
-    //public async Task<FolderModel?> CreateFolderAsync(FolderModel folder, CancellationToken cancellationToken)
-    //{
-    //    var res = await PostAsJsonAsync<FolderModel, FolderModel>($"{prefix}/folders", folder, cancellationToken);
-    //    return res;
-    //}
-
-    //public async Task<FolderModel?> GetFolderAsync(int id, CancellationToken cancellationToken)
-    //{
-    //    var res = await GetFromJsonAsync<FolderModel>($"{prefix}/folders/{id}", cancellationToken);
-    //    return res;
-    //}
-
-    //public async Task DeleteFolderAsync(int id, CancellationToken cancellationToken)
-    //{
-    //    await DeleteAsync($"{prefix}/folders/{id}", cancellationToken);
-    //}
-    #endregion
+    // Space Label
+    // Space Permissions
+    // Space Property
+    // Space Watchers
+    // SpaceColorScheme
 
     #region User
 
@@ -147,6 +150,8 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     }
 
     #endregion
+
+    // User Group
 
     #region Export
 
@@ -223,7 +228,39 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
             uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Page.Limit}&start={start}";
         }
 
-        #endregion
+        
     }
+
+    #endregion
+
+
+    //public async Task<ChildrenModel?> GetChildPagesAsync(int id, CancellationToken cancellationToken)
+    //{
+    //    var res = await GetFromJsonAsync<ChildrenModel>($"{prefix}/pages/{id}/children", cancellationToken);
+    //    return res;
+    //}
+
+    //public async Task<ChildrenModel?> GetChildCustomContentAsync(int id, CancellationToken cancellationToken)
+    //{
+    //    var res = await GetFromJsonAsync<ChildrenModel>($"/rest/api/custom-content/{id}/children", cancellationToken);
+    //    return res;
+    //}
+
+    //public async Task<FolderModel?> CreateFolderAsync(FolderModel folder, CancellationToken cancellationToken)
+    //{
+    //    var res = await PostAsJsonAsync<FolderModel, FolderModel>($"{prefix}/folders", folder, cancellationToken);
+    //    return res;
+    //}
+
+    //public async Task<FolderModel?> GetFolderAsync(int id, CancellationToken cancellationToken)
+    //{
+    //    var res = await GetFromJsonAsync<FolderModel>($"{prefix}/folders/{id}", cancellationToken);
+    //    return res;
+    //}
+
+    //public async Task DeleteFolderAsync(int id, CancellationToken cancellationToken)
+    //{
+    //    await DeleteAsync($"{prefix}/folders/{id}", cancellationToken);
+    //}
 
 }
