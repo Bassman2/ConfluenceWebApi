@@ -48,6 +48,11 @@ public sealed class Confluence : IDisposable
 
     #region Access Mode
 
+    /// <summary>
+    /// Gets the current access mode status of the Confluence instance.
+    /// </summary>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>The access mode status as a string, or <c>null</c> if unavailable.</returns>
     public async Task<string?> GetAccessModeStatusAsync(CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
@@ -60,6 +65,14 @@ public sealed class Confluence : IDisposable
 
     #region Space
 
+    /// <summary>
+    /// Retrieves all content in a specified Confluence space.
+    /// </summary>
+    /// <param name="spaceKey">The key of the space.</param>
+    /// <param name="depth">The depth of content to retrieve (e.g., all or root).</param>
+    /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>An asynchronous stream of <see cref="Content"/> objects in the space.</returns>
     public async IAsyncEnumerable<Content> GetContentsInSpaceAsync(string spaceKey, Depth depth = Depth.All, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
@@ -73,6 +86,14 @@ public sealed class Confluence : IDisposable
         }
     }
 
+    /// <summary>
+    /// Retrieves content of a specific type in a Confluence space.
+    /// </summary>
+    /// <param name="spaceKey">The key of the space.</param>
+    /// <param name="type">The type of content to retrieve (e.g., page, blog post).</param>
+    /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>An asynchronous stream of <see cref="Content"/> objects of the specified type.</returns>
     public async IAsyncEnumerable<Content> GetContentsByTypeAsync(string spaceKey, Types type = Types.Page, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
@@ -86,6 +107,13 @@ public sealed class Confluence : IDisposable
         }
     }
 
+    /// <summary>
+    /// Retrieves information about a specific Confluence space.
+    /// </summary>
+    /// <param name="spaceKey">The key of the space.</param>
+    /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A <see cref="Space"/> object representing the space, or <c>null</c> if not found.</returns>
     public async Task<Space?> GetSpaceAsync(string spaceKey, string? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
@@ -94,6 +122,11 @@ public sealed class Confluence : IDisposable
         return res.CastModel<Space>(); 
     }
 
+    /// <summary>
+    /// Deletes a Confluence space by its key.
+    /// </summary>
+    /// <param name="spaceKey">The key of the space to delete.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     public async Task DeleteSpaceAsync(string spaceKey, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
@@ -105,6 +138,11 @@ public sealed class Confluence : IDisposable
 
     #region User
 
+    /// <summary>
+    /// Retrieves information about the current authenticated user.
+    /// </summary>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A <see cref="User"/> object representing the current user, or <c>null</c> if not found.</returns>
     public async Task<User?> GetCurrentUserAsync(CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
@@ -114,6 +152,13 @@ public sealed class Confluence : IDisposable
     }
 
     #endregion
+
+    /// <summary>
+    /// Deletes a label from a content item by its ID.
+    /// </summary>
+    /// <param name="id">The ID of the content item.</param>
+    /// <param name="label">The label to delete.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     public async Task DeleteLabelAsync(string id, string label, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
@@ -130,7 +175,6 @@ public sealed class Confluence : IDisposable
     /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>An asynchronous stream of <see cref="ContentModel"/> objects that match the query.</returns>
-
     public IAsyncEnumerable<ContentModel> SearchContentAsync(string sql, string? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
@@ -142,6 +186,12 @@ public sealed class Confluence : IDisposable
 
     #region Export
 
+    /// <summary>
+    /// Exports a Confluence page as a PDF file to the specified file path.
+    /// </summary>
+    /// <param name="pageId">The ID of the page to export.</param>
+    /// <param name="filePath">The file path to save the exported PDF.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     public async Task ExportPdfAsync(int pageId, string filePath, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
@@ -149,6 +199,12 @@ public sealed class Confluence : IDisposable
         await service.ExportPdfAsync(pageId, filePath, cancellationToken);
     }
 
+    /// <summary>
+    /// Exports a Confluence page as a PDF and returns the result as a stream.
+    /// </summary>
+    /// <param name="pageId">The ID of the page to export.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>A <see cref="Stream"/> containing the exported PDF data.</returns>
     public async Task<Stream> ExportPdfStreamAsync(int pageId, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
