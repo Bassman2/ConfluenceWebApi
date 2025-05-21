@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ConfluenceBaseUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfluenceSpaceUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfluenceUserUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Usings.cs" />
   </ItemGroup>
 </Project>

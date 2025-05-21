@@ -54,6 +54,8 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     public IAsyncEnumerable<ContentModel> GetContentsInSpaceAsync(string spaceKey, Depth depth, string? expand, CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, "spaceKey");
+
         var req = CombineUrl("/rest/api/space", spaceKey, "content", ("depth", depth), ("expand", expand));
         return GetYieldAsync<ContentModel>(req, cancellationToken);
     }
@@ -61,6 +63,8 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     
     public IAsyncEnumerable<ContentModel> GetContentsByTypeAsync(string spaceKey, Types type, string? expand, CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, "spaceKey");
+
         var req = CombineUrl("/rest/api/space", spaceKey, "content/page", ("type", type), ("expand", expand));
         return GetYieldAsync<ContentModel>(req, cancellationToken);
     }
@@ -85,9 +89,20 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     public async Task<SpaceModel?> GetSpaceAsync(string spaceKey, string? expand, CancellationToken cancellationToken)
     {
-        var req = CombineUrl("/rest/api/spaces", spaceKey, ("expand", expand));
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, "spaceKey");
+
+        var req = CombineUrl("/rest/api/space", spaceKey, ("expand", expand));
         var res = await GetFromJsonAsync<SpaceModel>(req, cancellationToken);
         return res;
+        
+    }
+
+    public async Task DeleteSpaceAsync(string spaceKey, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, "spaceKey");
+
+        var req = CombineUrl("/rest/api/space", spaceKey);
+        await DeleteAsync(req, cancellationToken);
     }
 
     #endregion
@@ -114,7 +129,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region User
 
-    public async Task<UserModel?> GetCurrentUser(CancellationToken cancellationToken)
+    public async Task<UserModel?> GetCurrentUserAsync(CancellationToken cancellationToken)
     {
         var res = await GetFromJsonAsync<UserModel>("/rest/api/user/current", cancellationToken);
         return res;

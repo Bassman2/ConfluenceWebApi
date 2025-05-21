@@ -1,5 +1,4 @@
-﻿using System.Reflection.Emit;
-using System.Threading;
+﻿using System.Threading;
 
 namespace ConfluenceWebApi;
 
@@ -60,8 +59,34 @@ public sealed class Confluence : IDisposable
         }
     }
 
+    public async Task<Space?> GetSpaceAsync(string spaceKey, string? expand = null, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = await service.GetSpaceAsync(spaceKey, expand, cancellationToken);
+        return res.CastModel<Space>(); 
+    }
+
+    public async Task DeleteSpaceAsync(string spaceKey, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        await service.DeleteSpaceAsync(spaceKey, cancellationToken);
+    }
+
     #endregion
 
+    #region User
+
+    public async Task<User?> GetCurrentUserAsync(CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = await service.GetCurrentUserAsync(cancellationToken);
+        return res.CastModel<User>();
+    }
+
+    #endregion
     public async Task DeleteLabelAsync(string id, string label, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);

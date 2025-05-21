@@ -110,4 +110,17 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
 
 
     }
+
+    [TestMethod]
+    public async Task TestMethodGetSpaceAsync()
+    {
+        using var confluence = new Confluence(storeKey, appName);
+        var item = await confluence.GetSpaceAsync("~bs");
+
+        Assert.IsNotNull(item);
+        Assert.AreEqual("127199830", item.Id, "Id");
+        Assert.AreEqual("page", item.Key, "Key");
+        Assert.AreEqual("Beckers, Ralfs Startseite", item.Name, "Name");
+        Assert.AreEqual("current", item.Status, "Status");
+    }
 }

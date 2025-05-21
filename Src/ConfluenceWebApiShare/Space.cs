@@ -10,7 +10,7 @@ public class Space
         Status = model.Status;
     }
 
-    public int Id { get; set; }
+    public string Id { get; set; }
 
     public string? Key { get; set; }
 
