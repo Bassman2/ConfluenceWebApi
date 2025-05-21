@@ -3,7 +3,7 @@
 public class SpaceModel
 {
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public string Id { get; set; } = null!;
 
     [JsonPropertyName("key")]
     public string? Key { get; set; }

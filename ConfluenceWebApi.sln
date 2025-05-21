@@ -17,6 +17,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{372CD2FB-1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LabelRemover", "Demo\LabelRemover\LabelRemover.csproj", "{677E417F-1EFF-435D-A459-DEF05A3F7762}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfluenceWebApiUnitTest80", "Test\ConfluenceWebApiUnitTest80\ConfluenceWebApiUnitTest80.csproj", "{4535DAC1-38FF-47DC-A6D7-BDCAB8655251}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfluenceWebApiUnitTest90", "Test\ConfluenceWebApiUnitTest90\ConfluenceWebApiUnitTest90.csproj", "{0B84F5B2-D518-44AD-85A7-0FE294FAE370}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ConfluenceWebApiUnitTestShare", "Test\ConfluenceWebApiUnitTestShare\ConfluenceWebApiUnitTestShare.shproj", "{89DE58C1-575A-475E-B179-FF81B2940BBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +43,14 @@ Global
 		{677E417F-1EFF-435D-A459-DEF05A3F7762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{677E417F-1EFF-435D-A459-DEF05A3F7762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{677E417F-1EFF-435D-A459-DEF05A3F7762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4535DAC1-38FF-47DC-A6D7-BDCAB8655251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4535DAC1-38FF-47DC-A6D7-BDCAB8655251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4535DAC1-38FF-47DC-A6D7-BDCAB8655251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4535DAC1-38FF-47DC-A6D7-BDCAB8655251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B84F5B2-D518-44AD-85A7-0FE294FAE370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B84F5B2-D518-44AD-85A7-0FE294FAE370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B84F5B2-D518-44AD-85A7-0FE294FAE370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B84F5B2-D518-44AD-85A7-0FE294FAE370}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -45,14 +61,20 @@ Global
 		{5AEAF9EA-9517-487A-AB03-EEBAC695D7EC} = {AC67D077-5BEC-47BE-8A0B-D340C185C81D}
 		{8CAACB04-9656-4B7C-A692-422FCA51474B} = {AC67D077-5BEC-47BE-8A0B-D340C185C81D}
 		{677E417F-1EFF-435D-A459-DEF05A3F7762} = {372CD2FB-1C96-4F11-BA95-867EB173229A}
+		{4535DAC1-38FF-47DC-A6D7-BDCAB8655251} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{0B84F5B2-D518-44AD-85A7-0FE294FAE370} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{89DE58C1-575A-475E-B179-FF81B2940BBD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AF383AFD-96E8-47AD-8555-EDD51CDB3B7D}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Test\ConfluenceWebApiUnitTestShare\ConfluenceWebApiUnitTestShare.projitems*{0b84f5b2-d518-44ad-85a7-0fe294fae370}*SharedItemsImports = 5
+		Test\ConfluenceWebApiUnitTestShare\ConfluenceWebApiUnitTestShare.projitems*{4535dac1-38ff-47dc-a6d7-bdcab8655251}*SharedItemsImports = 5
 		Src\ConfluenceWebApiShare\ConfluenceWebApiShare.projitems*{5aeaf9ea-9517-487a-ab03-eebac695d7ec}*SharedItemsImports = 5
 		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{5aeaf9ea-9517-487a-ab03-eebac695d7ec}*SharedItemsImports = 5
 		Src\ConfluenceWebApiShare\ConfluenceWebApiShare.projitems*{65edd697-11d6-4530-bd12-69df34471f06}*SharedItemsImports = 13
+		Test\ConfluenceWebApiUnitTestShare\ConfluenceWebApiUnitTestShare.projitems*{89de58c1-575a-475e-b179-ff81b2940bbd}*SharedItemsImports = 13
 		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{8caacb04-9656-4b7c-a692-422fca51474b}*SharedItemsImports = 13
 		Src\ConfluenceWebApiShare\ConfluenceWebApiShare.projitems*{c3f606dd-a898-4e0c-8358-bbd4e7dcb428}*SharedItemsImports = 5
 		..\WebServiceClient\Src\WebServiceClientShare\WebServiceClientShare.projitems*{c3f606dd-a898-4e0c-8358-bbd4e7dcb428}*SharedItemsImports = 5

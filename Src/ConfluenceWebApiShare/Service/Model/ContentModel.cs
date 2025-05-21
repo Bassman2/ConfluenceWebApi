@@ -3,7 +3,7 @@
 public class ContentModel
 {
     [JsonPropertyName("id")]
-    public string? Id { get; set; }
+    public string Id { get; set; } = null!;
 
     [JsonPropertyName("type")]
     public string? Type { get; set; }
