@@ -114,13 +114,13 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region Content Labels
 
-    public IAsyncEnumerable<LabelModel?> GetLabelsAsync(string id, string? prefix, CancellationToken cancellationToken)
+    public IAsyncEnumerable<LabelModel> GetLabelsAsync(string id, string? prefix, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "label", ("prefix", prefix));
         return GetYieldAsync<LabelModel>(req, cancellationToken);
     }
 
-    public IAsyncEnumerable<LabelModel?> AddLabelsAsync(string id, LabelModel label, CancellationToken cancellationToken)
+    public IAsyncEnumerable<LabelModel> AddLabelsAsync(string id, LabelModel label, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "label");
         return PostYieldAsync<LabelModel, LabelModel>(req, label, cancellationToken);
@@ -132,12 +132,6 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         var req = CombineUrl("rest/api/content", id, "label", ("name", name));
         await DeleteAsync(req, cancellationToken);
     }
-
-    //public async Task DeleteLabelWithQueryParamAsync(string id, string name, CancellationToken cancellationToken)
-    //{
-    //    var req = CombineUrl("rest/api/content", id, "label", ("name", name));
-    //    await DeleteAsync(req, cancellationToken);
-    //}
 
     #endregion
 
@@ -177,7 +171,8 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     // Content Restrictions
 
     #region Content Version
-    public async Task DeleteContentHistory(string id, string versionNumber, CancellationToken cancellationToken)
+
+    public async Task DeleteContentHistoryAsync(string id, string versionNumber, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "version", versionNumber);
         await DeleteAsync(req, cancellationToken);
@@ -221,24 +216,6 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         var req = CombineUrl("/rest/api/space", spaceKey, "content/page", ("type", type), ("expand", expand));
         return GetYieldAsync<ContentModel>(req, cancellationToken);
     }
-
-    //public async Task<SpaceModel?> GetSpaceAsync(string spaceKey, CancellationToken cancellationToken)
-    //{
-    //    var res = await GetFromJsonAsync<SpaceModel?>($"/rest/api/space/{spaceKey}", cancellationToken);
-    //    return res;
-    //}
-
-    //public async Task<List<SpaceModel>?> GetSpacesAsync(CancellationToken cancellationToken)
-    //{
-    //    var res = await GetFromJsonAsync<List<SpaceModel>>($"{prefix}/spaces", cancellationToken);
-    //    return res;
-    //}
-
-    //public async Task<SpaceModel?> CreateSpaceAsync(SpaceModel space,CancellationToken cancellationToken)
-    //{
-    //    var res = await PostAsJsonAsync<SpaceModel, SpaceModel>($"{prefix}/spaces", space, cancellationToken);
-    //    return res;
-    //}
 
     public async Task<SpaceModel?> GetSpaceAsync(string spaceKey, string? expand, CancellationToken cancellationToken)
     {

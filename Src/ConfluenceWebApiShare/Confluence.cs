@@ -1,4 +1,6 @@
-﻿namespace ConfluenceWebApi;
+﻿using System.Reflection.Emit;
+
+namespace ConfluenceWebApi;
 
 /// <summary>
 /// Represents a client for interacting with the Confluence API.
@@ -63,6 +65,210 @@ public sealed class Confluence : IDisposable
 
     #endregion
 
+
+    #region Attachments
+
+    public async IAsyncEnumerable<Attachment> GetAttachmentAsync(string id, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetAttachmentAsync(id, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Attachment>()!;
+        }
+    }
+
+    public async Task<Attachment?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = await service.CreateAttachmentAsync(id, files, expand, cancellationToken);
+        return res.CastModel<Attachment>();
+    }
+
+    public async Task MoveAttachmentAsync(string id, string attachmentId, string newName, string newContentId, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        await service.MoveAttachmentAsync(id, attachmentId, newName, newContentId, cancellationToken);
+    }
+
+    public async Task RemoveAttachmentAsync(string id, string attachmentId, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        await RemoveAttachmentAsync(id, attachmentId, cancellationToken);
+    }
+
+    public async Task RemoveAttachmentVersionAsync(string id, string attachmentId, string version, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        await RemoveAttachmentVersionAsync(id, attachmentId, version, cancellationToken);
+    }
+
+    #endregion
+
+    #region Child Content
+
+    public async IAsyncEnumerable<Content> GetChildrenOfContentAsync(string id, int parentVersion, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetChildrenOfContentAsync(id, parentVersion, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Content>()!;
+        }
+    }
+
+    public async IAsyncEnumerable<Content> GetChildrenOfContentByTypeAsync(string id, string type, int parentVersion, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetChildrenOfContentByTypeAsync(id, type, parentVersion, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Content>()!;
+        }
+    }
+
+    public async IAsyncEnumerable<Content> GetCommentsOfContentAsync(string id, string depth, Locations? location, int parentVersion, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetCommentsOfContentAsync(id, depth, location, parentVersion, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Content>()!;
+        }
+    }
+
+    #endregion
+
+    #region Content Descendant
+
+    public async IAsyncEnumerable<Content> GetDescendantsAsync(string id, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetDescendantsAsync(id, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Content>()!;
+        }
+    }
+
+    public async IAsyncEnumerable<Content> GetDescendantsOfTypeAsync(string id, string type, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetDescendantsOfTypeAsync(id, type, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Content>()!;
+        }
+    }
+
+    #endregion
+
+    #region Content Labels
+
+    public IAsyncEnumerable<Label> GetLabelsAsync(string id, string? prefix, CancellationToken cancellationToken)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetLabelsAsync(id, type, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Label>()!;
+        }
+    }
+
+    public async IAsyncEnumerable<Label> AddLabelsAsync(string id, LabelModel label, CancellationToken cancellationToken)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.AddLabelsAsync(id, label, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Label>()!;
+        }
+    }
+
+    public async Task DeleteLabelAsync(string id, string name, CancellationToken cancellationToken)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+        await service.DeleteAsync(id, name, cancellationToken);
+    }
+
+    #endregion
+
+    #region Content Resource
+
+    public async IAsyncEnumerable<Content?> GetContentAsync(string spaceKey, DateTime? postingDay = null, string? title = null, string? type = null, string? status = null, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.GetContentAsync(spaceKey, postingDay, title, type, status, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Content>()!;
+        }
+    }
+
+    public async Task<Content?> GetContentByIdAsync(string id, string? version = null, string? status = null, string? expand = null, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = await service.GetContentByIdAsync(id, version, status, expand, cancellationToken);
+        return res.CastModel<Content>();
+    }
+
+    public async Task DeleteContentAsync(string id, string? status = null, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        await service.DeleteContentAsync(id, status, cancellationToken);
+    }
+
+    public async IAsyncEnumerable<Content> SearchContentAsync(string cql, string? cqlcontext, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = service.SearchContentAsync(cql, cqlcontext, expand, cancellationToken);
+        await foreach (var item in res)
+        {
+            yield return item.CastModel<Content>()!;
+        }
+    }
+
+    #endregion
+
+    #region Content Version
+
+    public async Task DeleteContentHistoryAsync(string id, string versionNumber, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        await service.DeleteContentHistoryAsync(id, versionNumber, cancellationToken);
+    }
+
+    #endregion
+
+    #region Instance Metrics
+
+    public async Task<InstanceMetrics?> GetInstanceMetricsAsync(string id, string? version = null, string? status = null, string? expand = null, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = await service.GetInstanceMetricsAsync(id, version, status, expand, cancellationToken);
+        return res.CastModel<InstanceMetrics>();
+    }
+
+    #endregion
+
     #region Space
 
     /// <summary>
@@ -80,8 +286,6 @@ public sealed class Confluence : IDisposable
         var res = service.GetContentsInSpaceAsync(spaceKey, depth, expand, cancellationToken);
         await foreach (var item in res)
         {
-            //if (cancellationToken.IsCancellationRequested) yield break;
-
             yield return item.CastModel<Content>()!;
         }
     }
@@ -152,38 +356,7 @@ public sealed class Confluence : IDisposable
     }
 
     #endregion
-
-    /// <summary>
-    /// Deletes a label from a content item by its ID.
-    /// </summary>
-    /// <param name="id">The ID of the content item.</param>
-    /// <param name="label">The label to delete.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    public async Task DeleteLabelAsync(string id, string label, CancellationToken cancellationToken = default)
-    {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
-
-        await service.DeleteLabelAsync(id, label, cancellationToken);
-    }
-
-    #region Content Resource
-
-    /// <summary>
-    /// Searches for content in Confluence using a CQL (Confluence Query Language) query.
-    /// </summary>
-    /// <param name="sql">The CQL query string.</param>
-    /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
-    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    /// <returns>An asynchronous stream of <see cref="ContentModel"/> objects that match the query.</returns>
-    public IAsyncEnumerable<ContentModel> SearchContentAsync(string sql, string? cqlcontext = null, string? expand = null, CancellationToken cancellationToken = default)
-    {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
-
-        return service.SearchContentAsync(sql, cqlcontext, expand, cancellationToken); 
-    }
-
-    #endregion
-
+    
     #region Export
 
     /// <summary>
