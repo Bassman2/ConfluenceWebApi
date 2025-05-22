@@ -2,6 +2,12 @@
 
 internal class LabelModel
 {
+    public static implicit operator LabelModel(Label model)
+    {
+        return new LabelModel() { Prefix = model.Prefix, Name = model.Name, Id = model.Id, Text = model.Text };
+    }
+
+
     [JsonPropertyName("prefix")]
     public string Prefix { get; set; } = null!;
 

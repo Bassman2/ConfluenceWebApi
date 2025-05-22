@@ -68,7 +68,7 @@ public sealed class Confluence : IDisposable
 
     #region Attachments
 
-    public async IAsyncEnumerable<Attachment> GetAttachmentAsync(string id, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Attachment> GetAttachmentAsync(string id, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
@@ -79,7 +79,7 @@ public sealed class Confluence : IDisposable
         }
     }
 
-    public async Task<Attachment?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand, CancellationToken cancellationToken = default)
+    public async Task<Attachment?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
@@ -112,7 +112,7 @@ public sealed class Confluence : IDisposable
 
     #region Child Content
 
-    public async IAsyncEnumerable<Content> GetChildrenOfContentAsync(string id, int parentVersion, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Content> GetChildrenOfContentAsync(string id, int parentVersion, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
@@ -123,7 +123,7 @@ public sealed class Confluence : IDisposable
         }
     }
 
-    public async IAsyncEnumerable<Content> GetChildrenOfContentByTypeAsync(string id, string type, int parentVersion, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Content> GetChildrenOfContentByTypeAsync(string id, string type, int parentVersion, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
@@ -134,7 +134,7 @@ public sealed class Confluence : IDisposable
         }
     }
 
-    public async IAsyncEnumerable<Content> GetCommentsOfContentAsync(string id, string depth, Locations? location, int parentVersion, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Content> GetCommentsOfContentAsync(string id, string depth, Locations? location, int parentVersion, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
@@ -149,7 +149,7 @@ public sealed class Confluence : IDisposable
 
     #region Content Descendant
 
-    public async IAsyncEnumerable<Content> GetDescendantsAsync(string id, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Content> GetDescendantsAsync(string id, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
@@ -160,7 +160,7 @@ public sealed class Confluence : IDisposable
         }
     }
 
-    public async IAsyncEnumerable<Content> GetDescendantsOfTypeAsync(string id, string type, string? expand, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Content> GetDescendantsOfTypeAsync(string id, string type, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
@@ -175,18 +175,18 @@ public sealed class Confluence : IDisposable
 
     #region Content Labels
 
-    public IAsyncEnumerable<Label> GetLabelsAsync(string id, string? prefix, CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Label> GetLabelsAsync(string id, string? prefix = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
-        var res = service.GetLabelsAsync(id, type, expand, cancellationToken);
+        var res = service.GetLabelsAsync(id, prefix, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Label>()!;
         }
     }
 
-    public async IAsyncEnumerable<Label> AddLabelsAsync(string id, LabelModel label, CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Label> AddLabelsAsync(string id, Label label, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
@@ -197,10 +197,11 @@ public sealed class Confluence : IDisposable
         }
     }
 
-    public async Task DeleteLabelAsync(string id, string name, CancellationToken cancellationToken)
+    public async Task DeleteLabelAsync(string id, string name, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
-        await service.DeleteAsync(id, name, cancellationToken);
+
+        await service.DeleteLabelAsync(id, name, cancellationToken);
     }
 
     #endregion
@@ -233,7 +234,7 @@ public sealed class Confluence : IDisposable
         await service.DeleteContentAsync(id, status, cancellationToken);
     }
 
-    public async IAsyncEnumerable<Content> SearchContentAsync(string cql, string? cqlcontext, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> SearchContentAsync(string cql, string? cqlcontext = null, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
