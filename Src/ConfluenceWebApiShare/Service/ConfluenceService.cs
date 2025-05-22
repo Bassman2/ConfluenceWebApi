@@ -1,4 +1,6 @@
-﻿namespace ConfluenceWebApi.Service;
+﻿using System.Net.Mail;
+
+namespace ConfluenceWebApi.Service;
 
 // https://developer.atlassian.com/server/confluence/rest/v920/api-group-space/#api-group-space
 
@@ -28,7 +30,39 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     // Admin User
 
-    // Attachments
+    #region Attachments
+
+    public IAsyncEnumerable<AttachmentModel?> GetAttachmentAsync(string id, string? expand, CancellationToken cancellationToken)
+    {
+        var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
+        return GetYieldAsync<AttachmentModel>(req, cancellationToken);
+    }
+
+    public async Task<AttachmentModel?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand, CancellationToken cancellationToken)
+    {
+        var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
+        return await PostFilesFromJsonAsync<AttachmentModel>(req, files, cancellationToken);
+    }
+
+    public async Task MoveAttachmentAsync(string id, string attachmentId, string newName, string newContentId, CancellationToken cancellationToken)
+    {
+        var req = CombineUrl("/rest/api/content/", id, "child/attachment/", attachmentId, "/move", ("newName", newName), ("newContentId", newContentId));
+        await PostAsync(req, cancellationToken);
+    }
+
+    public async Task RemoveAttachmentAsync(string id, string attachmentId, CancellationToken cancellationToken)
+    {
+        var req = CombineUrl("/rest/api/content/", id, "child/attachment/", attachmentId);
+        await DeleteAsync(req, cancellationToken);
+    }
+
+    public async Task RemoveAttachmentVersionAsync(string id, string attachmentId, string version, CancellationToken cancellationToken)
+    {
+        var req = CombineUrl("/rest/api/content/", id, "child/attachment/", attachmentId, "version", version);
+        await DeleteAsync(req, cancellationToken);
+    }
+
+    #endregion
 
     // Backup and Restore
 
@@ -36,7 +70,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     // Child Content
 
-    
+
 
     // Content Blueprint
     // Content Body
