@@ -19,6 +19,8 @@
 
 [JsonSerializable(typeof(UserModel))]
 
+[JsonSerializable(typeof(ErrorModel))]
+
 internal partial class SourceGenerationContext : JsonSerializerContext
 {
 }

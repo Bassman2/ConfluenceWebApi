@@ -1,7 +1,4 @@
-﻿using System.Net.Mail;
-using System.Xml.Linq;
-
-namespace ConfluenceWebApi.Service;
+﻿namespace ConfluenceWebApi.Service;
 
 // https://developer.atlassian.com/server/confluence/rest/v920/api-group-space/#api-group-space
 
@@ -15,6 +12,22 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         client.DefaultRequestHeaders.Add("X-Atlassian-Token", "no-check");
                                          
         //client.DefaultRequestHeaders.MaxForwards = 5;
+    }
+
+    //protected override async Task ErrorCheckAsync(HttpResponseMessage response, string memberName, CancellationToken cancellationToken)
+    //{
+    //    if (!response.IsSuccessStatusCode)
+    //    {
+    //        await ErrorHandlingAsync(response, memberName, cancellationToken);
+    //    }
+    //}
+
+    protected override async Task ErrorHandlingAsync(HttpResponseMessage response, string memberName, CancellationToken cancellationToken)
+    {
+        JsonTypeInfo<ErrorModel> jsonTypeInfoOut = (JsonTypeInfo<ErrorModel>)context.GetTypeInfo(typeof(ErrorModel))!;
+        var error = await response.Content.ReadFromJsonAsync<ErrorModel>(jsonTypeInfoOut, cancellationToken);
+        
+        throw new WebServiceException(error?.ToString(), response.RequestMessage?.RequestUri, response.StatusCode, response.ReasonPhrase, memberName);
     }
 
     #region Access Mode
