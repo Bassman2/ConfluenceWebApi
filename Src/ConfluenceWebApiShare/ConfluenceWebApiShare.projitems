@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attachment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Depth.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\Locations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Types.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProfilePicture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\AccessModeStatusModel.cs" />
@@ -19,6 +20,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ChildrenModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ExpandableModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\FolderModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\InstanceMetricsModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\LabelModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\LinksModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ListModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ContentModel.cs" />

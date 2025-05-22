@@ -175,11 +175,11 @@ public sealed class Confluence : IDisposable
     /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>An asynchronous stream of <see cref="ContentModel"/> objects that match the query.</returns>
-    public IAsyncEnumerable<ContentModel> SearchContentAsync(string sql, string? expand = null, CancellationToken cancellationToken = default)
+    public IAsyncEnumerable<ContentModel> SearchContentAsync(string sql, string? cqlcontext = null, string? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
-        return service.SearchContentAsync(sql, expand, cancellationToken); 
+        return service.SearchContentAsync(sql, cqlcontext, expand, cancellationToken); 
     }
 
     #endregion
