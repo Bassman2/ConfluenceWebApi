@@ -20,4 +20,7 @@ public abstract class ConfluenceBaseUnitTest
 
     //protected static readonly string repoKeyDynamic = "local-generic-test-dynamic";
     //protected static readonly string repoKeyFix = "local-generic-test-fix";
+
+
+    protected static readonly string testSpace = "~" + KeyStore.Key(storeKey)!.Login!;
 }

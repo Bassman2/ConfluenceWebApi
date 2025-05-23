@@ -84,7 +84,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region Child Content
 
-    public IAsyncEnumerable<ContentModel?> GetChildrenOfContentAsync(string id, int parentVersion, string? expand, CancellationToken cancellationToken)
+    public IAsyncEnumerable<ContentModel?> GetChildrenOfContentAsync(string id, int? parentVersion, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "child", ("parentVersion", parentVersion), ("expand", expand));
         return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
