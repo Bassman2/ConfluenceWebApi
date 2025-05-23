@@ -1,6 +1,6 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class PageModel<T>
+internal class ResultListModel<T>
 {
     [JsonPropertyName("results")]
     public List<T>? Results { get; set; }

@@ -3,6 +3,7 @@
 /// <summary>
 /// Represents a label associated with a Confluence content item, including its prefix, name, identifier, and display text.
 /// </summary>
+[DebuggerDisplay("{Id}: {Prefix} - {Name} - {Text}")]
 public class Label
 {
     /// <summary>

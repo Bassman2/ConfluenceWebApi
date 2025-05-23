@@ -1,5 +1,6 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
+[DebuggerDisplay("{Id}: {Prefix} - {Name} - {Text}")]
 internal class LabelModel
 {
     public static implicit operator LabelModel(Label model)

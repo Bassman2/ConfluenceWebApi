@@ -9,15 +9,20 @@
 [JsonSerializable(typeof(List<FolderModel>))]
 [JsonSerializable(typeof(List<SpaceModel>))]
 
-[JsonSerializable(typeof(ListModel<SpaceModel>))]
+[JsonSerializable(typeof(PageListModel<SpaceModel>))]
 
 [JsonSerializable(typeof(ContentModel))]
-[JsonSerializable(typeof(ListModel<ContentModel>))]
+[JsonSerializable(typeof(PageListModel<ContentModel>))]
 
 [JsonSerializable(typeof(SpaceModel))]
 
-
 [JsonSerializable(typeof(UserModel))]
+
+
+
+// start
+[JsonSerializable(typeof(ResultListModel<LabelModel>))]
+
 
 [JsonSerializable(typeof(ErrorModel))]
 

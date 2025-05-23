@@ -49,7 +49,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     public IAsyncEnumerable<AttachmentModel?> GetAttachmentAsync(string id, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
-        return GetYieldAsync<AttachmentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<AttachmentModel>(req, cancellationToken);
     }
 
     public async Task<AttachmentModel?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand, CancellationToken cancellationToken)
@@ -87,19 +87,19 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     public IAsyncEnumerable<ContentModel?> GetChildrenOfContentAsync(string id, int parentVersion, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "child", ("parentVersion", parentVersion), ("expand", expand));
-        return GetYieldAsync<ContentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
     public IAsyncEnumerable<ContentModel?> GetChildrenOfContentByTypeAsync(string id, string type, int parentVersion, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "child", type, ("parentVersion", parentVersion), ("expand", expand));
-        return GetYieldAsync<ContentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
     public IAsyncEnumerable<ContentModel?> GetCommentsOfContentAsync(string id, string depth, Locations? location, int parentVersion, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "child/comment", ("depth", depth), ("location", location), ("parentVersion", parentVersion), ("expand", expand));
-        return GetYieldAsync<ContentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
     #endregion
@@ -114,13 +114,13 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     public IAsyncEnumerable<ContentModel?> GetDescendantsAsync(string id, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "descendant", ("expand", expand));
-        return GetYieldAsync<ContentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
     public IAsyncEnumerable<ContentModel?> GetDescendantsOfTypeAsync(string id, string type, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "descendant", type, ("expand", expand));
-        return GetYieldAsync<ContentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
     #endregion
@@ -130,13 +130,13 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     public IAsyncEnumerable<LabelModel> GetLabelsAsync(string id, string? prefix, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "label", ("prefix", prefix));
-        return GetYieldAsync<LabelModel>(req, cancellationToken);
+        return GetResultListYieldAsync<LabelModel>(req, cancellationToken);
     }
 
     public IAsyncEnumerable<LabelModel> AddLabelsAsync(string id, LabelModel label, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "label");
-        return PostYieldAsync<LabelModel, LabelModel>(req, label, cancellationToken);
+        return PostResultListYieldAsync<LabelModel, LabelModel>(req, label, cancellationToken);
     }
     
     public async Task DeleteLabelAsync(string id, string name, CancellationToken cancellationToken)
@@ -155,7 +155,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     public IAsyncEnumerable<ContentModel?> GetContentAsync(string spaceKey, DateTime? postingDay, string? title, string? type, string? status, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", ("spaceKey", spaceKey), ("postingDay", postingDay?.ToString("yyyy-MM-dd")), ("title", title), ("type", type), ("status", status), ("expand", expand));
-        return GetYieldAsync<ContentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
     public async Task<ContentModel?> GetContentByIdAsync(string id, string? version, string? status, string? expand, CancellationToken cancellationToken)
@@ -175,7 +175,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         ArgumentNullException.ThrowIfNullOrWhiteSpace(cql, nameof(cql));
 
         var req = CombineUrl("/rest/api/content/search", ("cql", cql), ("cqlcontext", cqlcontext), ("expand", expand));
-        return GetYieldAsync<ContentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
     #endregion
@@ -218,7 +218,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, nameof(spaceKey));
 
         var req = CombineUrl("/rest/api/space", spaceKey, "content", ("depth", depth), ("expand", expand));
-        return GetYieldAsync<ContentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
 
@@ -227,7 +227,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, nameof(spaceKey));
 
         var req = CombineUrl("/rest/api/space", spaceKey, "content/page", ("type", type), ("expand", expand));
-        return GetYieldAsync<ContentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
     public async Task<SpaceModel?> GetSpaceAsync(string spaceKey, string? expand, CancellationToken cancellationToken)
@@ -306,13 +306,13 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region private
 
-    private async IAsyncEnumerable<OUT> GetYieldAsync<OUT>(string requestUri, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where OUT : class
+    private async IAsyncEnumerable<OUT> GetPageListYieldAsync<OUT>(string requestUri, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where OUT : class
     {
         string uri = requestUri;
         int start = 0;
         while (true)
         { 
-            ListModel<OUT>? resp = await GetFromJsonAsync<ListModel<OUT>>(uri, cancellationToken, memberName);
+            PageListModel<OUT>? resp = await GetFromJsonAsync<PageListModel<OUT>>(uri, cancellationToken, memberName);
             foreach (OUT item in resp!.Page!.Results!)
             {
                 if (cancellationToken.IsCancellationRequested) yield break;
@@ -332,29 +332,55 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         }        
     }
 
-    private async IAsyncEnumerable<OUT> PostYieldAsync<IN, OUT>(string requestUri, IN obj, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where IN : class where OUT : class
+    private async IAsyncEnumerable<OUT> GetResultListYieldAsync<OUT>(string requestUri, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where OUT : class
     {
         string uri = requestUri;
         int start = 0;
         while (true)
         {
-            ListModel<OUT>? resp = await PostAsJsonAsync<IN, ListModel<OUT>>(uri, obj, cancellationToken, memberName);
-            foreach (OUT item in resp!.Page!.Results!)
+            ResultListModel<OUT>? resp = await GetFromJsonAsync<ResultListModel<OUT>>(uri, cancellationToken, memberName);
+            foreach (OUT item in resp!.Results!)
             {
                 if (cancellationToken.IsCancellationRequested) yield break;
                 yield return item;
             }
 
-            if (resp!.Page!.Size < resp!.Page!.Limit) yield break;
+            if (resp!.Size < resp!.Limit) yield break;
 
-            start += resp!.Page!.Size;
+            start += resp!.Size;
 
-            if (resp!.Page!.Size != resp!.Page.Results.Count)
+            if (resp!.Size != resp!.Results.Count)
             {
                 throw new Exception("XXXXXXXXXXXXXX");
             }
 
-            uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Page.Limit}&start={start}";
+            uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Limit}&start={start}";
+        }
+    }
+
+    private async IAsyncEnumerable<OUT> PostResultListYieldAsync<IN, OUT>(string requestUri, IN obj, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where IN : class where OUT : class
+    {
+        string uri = requestUri;
+        int start = 0;
+        while (true)
+        {
+            ResultListModel<OUT>? resp = await PostAsJsonAsync<IN, ResultListModel<OUT>>(uri, obj, cancellationToken, memberName);
+            foreach (OUT item in resp!.Results!)
+            {
+                if (cancellationToken.IsCancellationRequested) yield break;
+                yield return item;
+            }
+
+            if (resp!.Size < resp!.Limit) yield break;
+
+            start += resp!.Size;
+
+            if (resp!.Size != resp!.Results.Count)
+            {
+                throw new Exception("XXXXXXXXXXXXXX");
+            }
+
+            uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Limit}&start={start}";
         }
     }
 

@@ -65,7 +65,6 @@ public sealed class Confluence : IDisposable
 
     #endregion
 
-
     #region Attachments
 
     /// <summary>
