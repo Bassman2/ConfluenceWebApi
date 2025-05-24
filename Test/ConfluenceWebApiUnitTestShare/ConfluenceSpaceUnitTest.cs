@@ -4,6 +4,41 @@
 public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
 {
     [TestMethod]
+    public async Task TestMethodGetRootContentInSpaceRootAsync()
+    {
+        Expands exp =
+            Expands.Ancestors |
+            Expands.Body |
+            Expands.Body_Editor |
+            Expands.Body_View |
+            Expands.Body_Export_View |
+            Expands.Body_Styled_View |
+            Expands.Body_Storage |
+            Expands.Body_Anonymous_Export_View |
+            Expands.Children |
+            Expands.Container |
+            Expands.Descendants |
+            Expands.History |
+            Expands.Metadata |
+            Expands.Operations |
+            Expands.Restrictions |
+            Expands.Space |
+            Expands.Storage |
+            Expands.Version;
+
+        using var confluence = new Confluence(storeKey, appName);
+        var item = await confluence.GetRootContentInSpaceAsync("~bs", exp);
+
+        Assert.IsNotNull(item);
+        Assert.AreEqual("127199830", item.Id, "Id");
+        Assert.AreEqual("page", item.Type, "Type");
+        Assert.AreEqual("current", item.Status, "Status");
+        Assert.AreEqual("Beckers, Ralfs Startseite", item.Title, "Title");
+
+
+    }
+
+    [TestMethod]
     public async Task TestMethodGetContentsInSpaceRootAsync()
     {
         using var confluence = new Confluence(storeKey, appName);

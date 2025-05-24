@@ -458,6 +458,14 @@ public sealed class Confluence : IDisposable
 
     #region Space
 
+    public async Task<Content?> GetRootContentInSpaceAsync(string spaceKey, Expands expand = Expands.None, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = await service.GetRootContentInSpaceAsync(spaceKey, expand, cancellationToken);
+        return res.CastModel<Content>();
+    }
+
     /// <summary>
     /// Retrieves all content in a specified Confluence space.
     /// </summary>

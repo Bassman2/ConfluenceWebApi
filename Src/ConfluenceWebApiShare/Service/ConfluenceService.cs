@@ -213,12 +213,22 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region Space
 
+    public async Task<ContentModel?> GetRootContentInSpaceAsync(string spaceKey, Expands expand, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, nameof(spaceKey));
+
+        var req = CombineUrl("/rest/api/space", spaceKey, "content", ("depth", Depth.Root), ("expand", expand));
+        var res = await GetFromJsonAsync<PageListModel<ContentModel>>(req, cancellationToken);
+
+        return res?.Page?.Results?.FirstOrDefault();
+    }
+
     public IAsyncEnumerable<ContentModel> GetContentsInSpaceAsync(string spaceKey, Depth depth, string? expand, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, nameof(spaceKey));
 
         var req = CombineUrl("/rest/api/space", spaceKey, "content", ("depth", depth), ("expand", expand));
-        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
+        return GetPageListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
 
@@ -305,6 +315,27 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     #endregion
 
     #region private
+
+    protected override string QueryEntry((string Name, object? Value) entry)
+    {
+        if (entry.Value?.GetType() == typeof(Expands))
+        {
+            Expands expands = (Expands)entry.Value;
+            if (expands == Expands.None)
+            {
+                return "";
+            }
+            string str = expands.ToString().Replace(" ", "").Replace('_', '.').ToLower();
+            return $"{entry.Name}={str}";
+        }
+        return base.QueryEntry(entry);
+    }
+
+    private static string ExpandsToString(Expands expands)
+    {
+        string res = expands.ToString().Replace('_', '.').ToLower();
+        return res;
+    }
 
     private async IAsyncEnumerable<OUT> GetPageListYieldAsync<OUT>(string requestUri, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where OUT : class
     {

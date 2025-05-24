@@ -1,6 +1,6 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-[JsonSourceGenerationOptions]
+[JsonSourceGenerationOptions()]
 
 [JsonSerializable(typeof(AccessModeStatusModel))]
 
