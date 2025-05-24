@@ -327,25 +327,9 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
                 return $"{entry.Name}={expand}";
             }
         }
-        //if (entry.Value?.GetType() == typeof(Expands))
-        //{
-        //    Expands expands = (Expands)entry.Value;
-        //    if (expands == Expands.None)
-        //    {
-        //        return "";
-        //    }
-        //    string str = expands.ToString().Replace(" ", "").Replace("__", ".").ToLower();
-        //    return $"{entry.Name}={str}";
-        //}
         return base.QueryEntry(entry);
     }
-
-    private static string ExpandsToString(Expands expands)
-    {
-        string res = expands.ToString().Replace('_', '.').ToLower();
-        return res;
-    }
-
+    
     private async IAsyncEnumerable<OUT> GetPageListYieldAsync<OUT>(string requestUri, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where OUT : class
     {
         string uri = requestUri;

@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Expand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Depth.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enums\Expands.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Locations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Types.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InstanceMetrics.cs" />
