@@ -458,7 +458,7 @@ public sealed class Confluence : IDisposable
 
     #region Space
 
-    public async Task<Content?> GetRootContentInSpaceAsync(string spaceKey, Expands expand = Expands.None, CancellationToken cancellationToken = default)
+    public async Task<Content?> GetRootContentInSpaceAsync(string spaceKey, Expand? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 

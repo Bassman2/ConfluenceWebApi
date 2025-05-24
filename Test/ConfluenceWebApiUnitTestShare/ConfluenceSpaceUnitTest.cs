@@ -6,25 +6,27 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
     [TestMethod]
     public async Task TestMethodGetRootContentInSpaceRootAsync()
     {
-        Expands exp =
-            Expands.Ancestors |
-            Expands.Body |
-            Expands.Body_Editor |
-            Expands.Body_View |
-            Expands.Body_Export_View |
-            Expands.Body_Styled_View |
-            Expands.Body_Storage |
-            Expands.Body_Anonymous_Export_View |
-            Expands.Children |
-            Expands.Container |
-            Expands.Descendants |
-            Expands.History |
-            Expands.Metadata |
-            Expands.Operations |
-            Expands.Restrictions |
-            Expands.Space |
-            Expands.Storage |
-            Expands.Version;
+        //Expands exp =
+        //    Expands.Ancestors |
+        //    Expands.Body |
+        //    Expands.Body__Editor |
+        //    Expands.Body__View |
+        //    Expands.Body__Export_View |
+        //    Expands.Body__Styled_View |
+        //    Expands.Body__Storage |
+        //    Expands.Body__Anonymous_Export_View |
+        //    Expands.Children |
+        //    Expands.Container |
+        //    Expands.Descendants |
+        //    Expands.History |
+        //    Expands.Metadata |
+        //    Expands.Operations |
+        //    Expands.Restrictions |
+        //    Expands.Space |
+        //    Expands.Storage |
+        //    Expands.Version;
+
+        Expand exp = Expand.Ancestors + Expand.Body + Expand.Body_Editor;
 
         using var confluence = new Confluence(storeKey, appName);
         var item = await confluence.GetRootContentInSpaceAsync("~bs", exp);

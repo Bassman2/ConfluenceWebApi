@@ -213,7 +213,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region Space
 
-    public async Task<ContentModel?> GetRootContentInSpaceAsync(string spaceKey, Expands expand, CancellationToken cancellationToken)
+    public async Task<ContentModel?> GetRootContentInSpaceAsync(string spaceKey, Expand? expand, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(spaceKey, nameof(spaceKey));
 
@@ -318,16 +318,25 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     protected override string QueryEntry((string Name, object? Value) entry)
     {
-        if (entry.Value?.GetType() == typeof(Expands))
+        if (entry.Value?.GetType() == typeof(Expand))
         {
-            Expands expands = (Expands)entry.Value;
-            if (expands == Expands.None)
+            if (entry.Value == null) return "";
+
+            if (entry.Value is Expand expand)
             {
-                return "";
+                return $"{entry.Name}={expand}";
             }
-            string str = expands.ToString().Replace(" ", "").Replace('_', '.').ToLower();
-            return $"{entry.Name}={str}";
         }
+        //if (entry.Value?.GetType() == typeof(Expands))
+        //{
+        //    Expands expands = (Expands)entry.Value;
+        //    if (expands == Expands.None)
+        //    {
+        //        return "";
+        //    }
+        //    string str = expands.ToString().Replace(" ", "").Replace("__", ".").ToLower();
+        //    return $"{entry.Name}={str}";
+        //}
         return base.QueryEntry(entry);
     }
 
