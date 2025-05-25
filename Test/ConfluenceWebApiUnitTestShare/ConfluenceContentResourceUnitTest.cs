@@ -10,7 +10,7 @@ public class ConfluenceContentResourceUnitTest : ConfluenceBaseUnitTest
         var contents = confluence.GetContentAsync(testSpace);
 
         Assert.IsNotNull(contents);
-        var list = (await contents.ToListAsync()).OrderBy(i => i.Title).ToList();
+        var list = (await contents.ToListAsync()).OrderBy(i => i!.Title).ToList();
         Assert.IsNotNull(list);
 
         var item = list.SingleOrDefault();

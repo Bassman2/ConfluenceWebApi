@@ -10,4 +10,7 @@ public class ExpandableModel
     /// </summary>
     [JsonPropertyName("status")]
     public string? Status { get; set; }
+
+    [JsonPropertyName("content")]
+    public string? Content { get; set; }
 }

@@ -6,9 +6,6 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
     [TestMethod]
     public async Task TestMethodGetRootContentInSpaceRootAsync()
     {
-        
-
-        
         using var confluence = new Confluence(storeKey, appName);
         var item = await confluence.GetRootContentInSpaceAsync("~bs", Expand.All);
 

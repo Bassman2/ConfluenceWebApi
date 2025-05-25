@@ -18,7 +18,7 @@ internal class UserModel
     public string? DisplayName { get; set; }
 
     [JsonPropertyName("_links")]
-    public LinksModel? Links { get; set; }
+    public UserLinksModel? Links { get; set; }
 
     [JsonPropertyName("_expandable")]
     public ExpandableModel? Expandable { get; set; }

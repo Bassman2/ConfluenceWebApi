@@ -28,6 +28,6 @@ internal class PageListModel<T>
     //public int TotalSize { get; set; }
 
     //[JsonPropertyName("_links")]
-    //public LinksModel? Links { get; set; }
+    //public UserLinksModel? Links { get; set; }
 
 }
