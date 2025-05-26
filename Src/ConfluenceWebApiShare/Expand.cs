@@ -4,6 +4,8 @@ public class Expand
 {
     public static readonly Expand Ancestors                         /**/ = new("ancestors");
 
+    public static readonly Expand Attachment                       /**/ = new("attachment");
+
     public static readonly Expand Body                              /**/ = new("body");
     public static readonly Expand Body_Editor                       /**/ = new("body.editor");
     public static readonly Expand Body_View                         /**/ = new("body.view");
@@ -19,6 +21,8 @@ public class Expand
     public static readonly Expand Children_Comment                  /**/ = new("children.comment");
     public static readonly Expand Children_Page                     /**/ = new("children.page");
     public static readonly Expand ChildrenAll                       /**/ = Children + Children_Attachment + Children_Comment + Children_Page;
+
+    public static readonly Expand Comment                           /**/ = new("comment");
 
     public static readonly Expand Container                         /**/ = new("container");
 
@@ -45,6 +49,8 @@ public class Expand
     public static readonly Expand MetadataAll                       /**/ = Metadata + Metadata_Currentuser + Metadata_Properties + Metadata_Frontend + Metadata_EditorHtml + Metadata_Labels;
 
     public static readonly Expand Operations                        /**/ = new("operations");
+
+    public static readonly Expand Page                              /**/ = new("page");
 
     public static readonly Expand Restrictions                      /**/ = new("restrictions");
     public static readonly Expand Restrictions_Read                 /**/ = new("restrictions.read");
@@ -80,7 +86,7 @@ public class Expand
     public static readonly Expand Version_Content                   /**/ = new("version.content");
     public static readonly Expand VersionAll                        /**/ = Version + Version_Content;
 
-    public static readonly Expand All                               /**/ = Ancestors + BodyAll + ChildrenAll + Container + DescendantsAll + HistoryAll + MetadataAll + Operations + RestrictionsAll + SpaceAll + Storage + VersionAll;
+    public static readonly Expand All                               /**/ = Ancestors + Attachment + BodyAll + ChildrenAll + Comment + Container + DescendantsAll + HistoryAll + MetadataAll + Operations + Page + RestrictionsAll + SpaceAll + Storage + VersionAll;
 
 
     private readonly List<string> content = [];

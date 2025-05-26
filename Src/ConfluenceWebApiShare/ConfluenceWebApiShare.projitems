@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attachment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Body.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Children.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Comment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Contributors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Descendants.cs" />
@@ -36,6 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\BaseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\BodyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ChildrenModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\CommentModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ContainerModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ContentLinksModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ContributorsModel.cs" />

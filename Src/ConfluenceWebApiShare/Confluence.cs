@@ -168,15 +168,12 @@ public sealed class Confluence : IDisposable
     /// <returns>
     /// An asynchronous stream of <see cref="Content"/> objects representing the direct children of the specified content item.
     /// </returns>
-    public async IAsyncEnumerable<Content> GetChildrenOfContentAsync(string id, int? parentVersion = null, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async Task<Children?> GetChildrenOfContentAsync(string id, int? parentVersion = null, Expand? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
-        var res = service.GetChildrenOfContentAsync(id, parentVersion, expand, cancellationToken);
-        await foreach (var item in res)
-        {
-            yield return item.CastModel<Content>()!;
-        }
+        var res = await service.GetChildrenOfContentAsync(id, parentVersion, expand, cancellationToken);
+        return res.CastModel<Children>();
     }
 
     /// <summary>
