@@ -5,6 +5,9 @@
 /// </summary>
 public class Space
 {
+    public Space()
+    { }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Space"/> class using the specified <see cref="SpaceModel"/>.
     /// </summary>
@@ -21,6 +24,15 @@ public class Space
         Type = model.Type;
         Metadata = model.Metadata.CastModel<Metadata>(); 
     }
+
+    internal SpaceModel ToModel()
+    {
+        return new SpaceModel
+        {
+            Key = Key
+        };
+    }
+
 
     /// <summary>
     /// Gets or sets the unique identifier of the space.

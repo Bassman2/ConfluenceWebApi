@@ -1,9 +1,10 @@
-﻿using WebServiceClient;
-
-namespace ConfluenceWebApi;
+﻿namespace ConfluenceWebApi;
 
 public class Body
 {
+    public Body()
+    { }
+
     internal Body(BodyModel model)
     {
         Storage = model.Storage.CastModel<ValueRepresentation>();
@@ -12,6 +13,14 @@ public class Body
         ExportView = model.ExportView.CastModel<ValueRepresentation>();
         AnonymousExportView = model.AnonymousExportView.CastModel<ValueRepresentation>();
         StyledView = model.StyledView.CastModel<ValueRepresentation>();
+    }
+
+    internal BodyModel ToModel()
+    {
+        return new BodyModel()
+        {
+            Storage = Storage?.ToModel()
+        };
     }
 
     public ValueRepresentation? Storage { get; set; }

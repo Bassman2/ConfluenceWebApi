@@ -9,7 +9,7 @@ internal class ContentModel : BaseModel
     /// Gets or sets the unique identifier of the content item.
     /// </summary>
     [JsonPropertyName("id")]
-    public string Id { get; set; } = null!;
+    public string? Id { get; set; }
 
     /// <summary>
     /// Gets or sets the type of the content (e.g., "page", "blogpost").

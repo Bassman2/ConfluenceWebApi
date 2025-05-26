@@ -1,7 +1,4 @@
-﻿using System.ComponentModel;
-using WebServiceClient;
-
-namespace ConfluenceWebApi;
+﻿namespace ConfluenceWebApi;
 
 /// <summary>
 /// Represents a content item in Confluence, including its metadata and associated space.
@@ -9,6 +6,9 @@ namespace ConfluenceWebApi;
 [DebuggerDisplay("{Id}: {Title} - {Status}")]
 public class Content
 {
+    public Content()
+    { }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Content"/> class using the specified <see cref="ContentModel"/>.
     /// </summary>
@@ -34,10 +34,29 @@ public class Content
         Restrictions = model.Restrictions.CastModel<Restrictions>();
     }
 
+    internal ContentModel ToModel()
+    {
+        return new ContentModel()
+        {
+            //Id = Id,
+            Type = Type,
+            Status = Status,
+            Title = Title,
+            //Links = Links?.ToModel(),
+            Space = Space?.ToModel(),
+            //History = History?.ToModel(),
+            //Version = Version?.ToModel(),
+            Ancestors = Ancestors?.Select(c => c.ToModel()).ToList(),
+            //Position = Position,
+            //Operations = Operations?.Select(c => c.ToModel()).ToList(),
+            Body = Body?.ToModel()
+        };
+    }
+
     /// <summary>
     /// Gets or sets the unique identifier of the content item.
     /// </summary>
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     /// <summary>
     /// Gets or sets the type of the content (e.g., "page", "blogpost").

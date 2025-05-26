@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-
-namespace ConfluenceWebApi;
+﻿namespace ConfluenceWebApi;
 
 /// <summary>
 /// Represents a client for interacting with the Confluence API.
@@ -352,6 +350,31 @@ public sealed class Confluence : IDisposable
         {
             yield return item.CastModel<Content>()!;
         }
+    }
+
+    public async Task<Content?> CreateContentAsync(Content content, string? status = null, Expand? expand = null, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var res = await service.CreateContentAsync(content.ToModel(), status, expand, cancellationToken);
+        return res.CastModel<Content>();
+    }
+
+    public async Task<Content?> CreatePageAsync(string spaceKey, string ancestorsId, string title, string htmlPage, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var content = new Content()
+        {
+            Type = Types.Page,
+            Title = title,
+            Ancestors = [new() { Id = ancestorsId }],
+            Space = new Space() { Key = spaceKey },
+            Body = new Body() {  Storage = new ValueRepresentation() { Value = htmlPage, Representation = "storage" } }
+
+        };
+        var res = await service.CreateContentAsync(content.ToModel(), null, null, cancellationToken);
+        return res.CastModel<Content>();
     }
 
     /// <summary>

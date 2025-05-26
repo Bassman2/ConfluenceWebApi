@@ -1,4 +1,6 @@
-﻿namespace ConfluenceWebApi.Service;
+﻿using System.Threading;
+
+namespace ConfluenceWebApi.Service;
 
 // https://developer.atlassian.com/server/confluence/rest/v920/api-group-space/#api-group-space
 
@@ -156,6 +158,13 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
     {
         var req = CombineUrl("rest/api/content", ("spaceKey", spaceKey), ("postingDay", postingDay?.ToString("yyyy-MM-dd")), ("title", title), ("type", type), ("status", status), ("expand", expand));
         return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
+    }
+
+
+    public async Task<ContentModel?> CreateContentAsync(ContentModel contentModel, string? status, Expand? expand, CancellationToken cancellationToken)
+    {
+        var req = CombineUrl("rest/api/content", ("status", status), ("expand", expand));
+        return await PostAsJsonAsync<ContentModel, ContentModel>(req, contentModel, cancellationToken);
     }
 
     public async Task<ContentModel?> GetContentByIdAsync(string id, string? version, string? status, string? expand, CancellationToken cancellationToken)

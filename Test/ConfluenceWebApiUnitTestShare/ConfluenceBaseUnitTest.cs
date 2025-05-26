@@ -22,6 +22,6 @@ public abstract class ConfluenceBaseUnitTest
     //protected static readonly string repoKeyFix = "local-generic-test-fix";
 
 
-    protected static readonly string testSpace = "~" + KeyStore.Key(storeKey)!.Login!;
+    protected static readonly string testSpaceKey = "~" + KeyStore.Key(storeKey)!.Login!;
     protected static readonly string testSpaceTitle = KeyStore.Key(storeKey)!.User + "s Startseite";
 }

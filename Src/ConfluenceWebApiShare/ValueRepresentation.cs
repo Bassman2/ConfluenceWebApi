@@ -2,12 +2,24 @@
 
 public class ValueRepresentation
 {
+    public ValueRepresentation()
+    { }
+
     internal ValueRepresentation(ValueRepresentationModel model)
     {
         Content = model.Content.CastModel<Content>();
         Value = model.Value;
         Representation = model.Representation;
         Webresource = model.Webresource;
+    }
+
+    internal ValueRepresentationModel ToModel()
+    {
+        return new ValueRepresentationModel()
+        {
+            Value = Value,
+            Representation = Representation
+        };
     }
     public Content? Content { get; set; }
 

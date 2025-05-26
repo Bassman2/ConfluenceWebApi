@@ -7,7 +7,7 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
     public async Task TestMethodGetRootContentInSpaceRootAsync()
     {
         using var confluence = new Confluence(storeKey, appName);
-        var item = await confluence.GetRootContentInSpaceAsync(testSpace, Expand.All);
+        var item = await confluence.GetRootContentInSpaceAsync(testSpaceKey, Expand.All);
 
         Assert.IsNotNull(item);
         Assert.AreEqual("127199830", item.Id, "Id");
@@ -17,7 +17,7 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
 
         Assert.IsNotNull(item.Space);
         Assert.AreEqual(122683496, item.Space.Id, "Space.Id");
-        Assert.AreEqual(testSpace, item.Space.Key, "Space.Key");
+        Assert.AreEqual(testSpaceKey, item.Space.Key, "Space.Key");
         Assert.AreEqual(testUser, item.Space.Name, "Space.Name");
         Assert.AreEqual(Statuses.Current, item.Space.Status, "Space.Status");
         Assert.AreEqual(Types.Personal, item.Space.Type, "Space.TypeName");
@@ -29,7 +29,7 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
     public async Task TestMethodGetContentsInSpaceRootAsync()
     {
         using var confluence = new Confluence(storeKey, appName);
-        var contents = confluence.GetContentsInSpaceAsync(testSpace, Depth.Root);
+        var contents = confluence.GetContentsInSpaceAsync(testSpaceKey, Depth.Root);
 
         Assert.IsNotNull(contents);
         var list = (await contents.ToListAsync()).OrderBy(i => i.Title).ToList();
@@ -50,7 +50,7 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
     public async Task TestMethodGetContentsInSpaceAsync()
     {
         using var confluence = new Confluence(storeKey, appName);
-        var contents = confluence.GetContentsInSpaceAsync(testSpace, Depth.All);
+        var contents = confluence.GetContentsInSpaceAsync(testSpaceKey, Depth.All);
 
         Assert.IsNotNull(contents);
         var list = (await contents.ToListAsync()).OrderBy(i => i.Title).ToList();
@@ -79,7 +79,7 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
     public async Task TestMethodGetContentsByTypePageAsync()
     {
         using var confluence = new Confluence(storeKey, appName);
-        var contents = confluence.GetContentsByTypeAsync(testSpace, Types.Page);
+        var contents = confluence.GetContentsByTypeAsync(testSpaceKey, Types.Page);
 
         Assert.IsNotNull(contents);
         var list = (await contents.ToListAsync()).OrderBy(i => i.Title).ToList();
@@ -108,7 +108,7 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
     public async Task TestMethodGetContentsByTypeBlogpostAsync()
     {
         using var confluence = new Confluence(storeKey, appName);
-        var contents = confluence.GetContentsByTypeAsync(testSpace, Types.Blogpost);
+        var contents = confluence.GetContentsByTypeAsync(testSpaceKey, Types.Blogpost);
 
         Assert.IsNotNull(contents);
         var list = (await contents.ToListAsync()).OrderBy(i => i.Title).ToList();
@@ -137,11 +137,11 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
     public async Task TestMethodGetSpaceAsync()
     {
         using var confluence = new Confluence(storeKey, appName);
-        var item = await confluence.GetSpaceAsync(testSpace);
+        var item = await confluence.GetSpaceAsync(testSpaceKey);
 
         Assert.IsNotNull(item);
         Assert.AreEqual(122683496, item.Id, "Id");
-        Assert.AreEqual(testSpace, item.Key, "Key");
+        Assert.AreEqual(testSpaceKey, item.Key, "Key");
         Assert.AreEqual(testUser, item.Name, "Name");
         Assert.AreEqual(Statuses.Current, item.Status, "Status");
     }
