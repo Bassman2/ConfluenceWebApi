@@ -17,8 +17,8 @@ public class ConfluenceContentResourceUnitTest : ConfluenceBaseUnitTest
         Assert.IsNotNull(item);
 
         Assert.AreEqual("127199830", item.Id, "Id");
-        Assert.AreEqual("page", item.Type, "Type");
-        Assert.AreEqual("current", item.Status, "Status");
+        Assert.AreEqual(Types.Page, item.Type, "Type");
+        Assert.AreEqual(Statuses.Current, item.Status, "Status");
         Assert.AreEqual("Beckers, Ralfs Startseite", item.Title, "Title");
 
 

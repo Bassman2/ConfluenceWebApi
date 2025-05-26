@@ -35,5 +35,5 @@ public class Space
     /// <summary>
     /// Gets or sets the status of the space.
     /// </summary>
-    public string? Status { get; set; }
+    public Statuses Status { get; set; }
 }

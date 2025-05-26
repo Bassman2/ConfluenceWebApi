@@ -27,6 +27,12 @@ internal class SpaceModel : BaseModel
     /// Gets or sets the status of the space (e.g., "current", "archived").
     /// </summary>
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
+    public Statuses Status { get; set; }
+
+    [JsonPropertyName("icon")]
+    public IconModel? Icon { get; set; }
+
+    [JsonPropertyName("description")]
+    public DescriptionModel? Description { get; set; }
 
 }
