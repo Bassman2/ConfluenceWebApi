@@ -1,5 +1,5 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class AttachmentModel
+internal class AttachmentModel : BaseModel
 {
 }

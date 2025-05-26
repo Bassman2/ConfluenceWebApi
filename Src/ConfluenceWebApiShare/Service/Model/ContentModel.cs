@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a content item in Confluence, including its metadata and associated space.
 /// </summary>
-internal class ContentModel
+internal class ContentModel : BaseModel
 {
     /// <summary>
     /// Gets or sets the unique identifier of the content item.
@@ -70,7 +70,4 @@ internal class ContentModel
 
     [JsonPropertyName("restrictions")]
     public RestrictionsModel? Restrictions { get; set; }
-
-    [JsonPropertyName("_links")]
-    public ContentLinksModel? Links { get; set; }
 }

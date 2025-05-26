@@ -1,5 +1,5 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class DescendantsModel
+internal class DescendantsModel : BaseModel
 {
 }

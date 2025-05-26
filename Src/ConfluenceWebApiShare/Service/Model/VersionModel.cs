@@ -1,6 +1,6 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class VersionModel
+internal class VersionModel : BaseModel
 {
     [JsonPropertyName("by")]
     public UserModel? By { get; set; }
@@ -22,10 +22,4 @@ internal class VersionModel
 
     [JsonPropertyName("content")]
     public ContentModel? Content { get; set; }
-
-    [JsonPropertyName("_links")]
-    public LinksModel? Links { get; set; }
-
-    [JsonPropertyName("_expandable")]
-    public ExpandableModel? Expandable { get; set; }
 }

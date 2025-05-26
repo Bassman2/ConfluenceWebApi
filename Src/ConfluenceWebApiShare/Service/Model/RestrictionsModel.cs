@@ -1,5 +1,5 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class RestrictionsModel
+internal class RestrictionsModel : BaseModel
 {
 }

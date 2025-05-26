@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ProfilePicture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\AccessModeStatusModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\AttachmentModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\BaseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\BodyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ChildrenModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ContainerModel.cs" />

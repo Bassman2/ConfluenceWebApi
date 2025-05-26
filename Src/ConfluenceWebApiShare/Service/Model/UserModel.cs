@@ -1,6 +1,6 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class UserModel
+internal class UserModel : BaseModel
 {
     [JsonPropertyName("type")]
     public string? Type { get; set; }
@@ -16,10 +16,4 @@ internal class UserModel
 
     [JsonPropertyName("displayName")]
     public string? DisplayName { get; set; }
-
-    [JsonPropertyName("_links")]
-    public UserLinksModel? Links { get; set; }
-
-    [JsonPropertyName("_expandable")]
-    public ExpandableModel? Expandable { get; set; }
 }

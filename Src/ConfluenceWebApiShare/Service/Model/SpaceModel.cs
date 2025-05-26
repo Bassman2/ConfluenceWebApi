@@ -3,13 +3,13 @@
 /// <summary>
 /// Represents a Confluence space with its basic properties.
 /// </summary>
-public class SpaceModel
+internal class SpaceModel : BaseModel
 {
     /// <summary>
     /// Gets or sets the unique identifier of the space.
     /// </summary>
     [JsonPropertyName("id")]
-    public string Id { get; set; } = null!;
+    public long Id { get; set; }
 
     /// <summary>
     /// Gets or sets the key of the space.

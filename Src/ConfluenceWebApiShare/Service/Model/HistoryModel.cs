@@ -1,6 +1,6 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class HistoryModel
+internal class HistoryModel : BaseModel
 {
     [JsonPropertyName("lastUpdated")]
     public VersionModel? LastUpdated { get; set; }
@@ -16,8 +16,4 @@ internal class HistoryModel
 
     [JsonPropertyName("contributors")]
     public ContributorsModel? Contributors { get; set; }
-
-    [JsonPropertyName("_links")]
-    public LinksModel? Links { get; set; }
-
 }

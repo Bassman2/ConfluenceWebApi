@@ -1,6 +1,6 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class ContentLinksModel
+internal class ContentLinksModel 
 {
     [JsonPropertyName("webui")]
     public string? WebUI { get; set; }

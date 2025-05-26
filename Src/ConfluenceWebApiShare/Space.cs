@@ -20,7 +20,7 @@ public class Space
     /// <summary>
     /// Gets or sets the unique identifier of the space.
     /// </summary>
-    public string Id { get; set; }
+    public long Id { get; set; }
 
     /// <summary>
     /// Gets or sets the key of the space.

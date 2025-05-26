@@ -1,5 +1,5 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class AccessModeStatusModel
+internal class AccessModeStatusModel : BaseModel
 {
 }

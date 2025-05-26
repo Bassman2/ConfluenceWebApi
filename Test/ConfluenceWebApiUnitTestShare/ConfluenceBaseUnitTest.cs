@@ -23,4 +23,5 @@ public abstract class ConfluenceBaseUnitTest
 
 
     protected static readonly string testSpace = "~" + KeyStore.Key(storeKey)!.Login!;
+    protected static readonly string testSpaceTitle = KeyStore.Key(storeKey)!.User + "s Startseite";
 }

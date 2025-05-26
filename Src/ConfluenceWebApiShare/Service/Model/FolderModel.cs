@@ -1,5 +1,5 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class FolderModel
+internal class FolderModel : BaseModel
 {
 }

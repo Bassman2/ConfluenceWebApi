@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents a user's profile picture, including its path, dimensions, and default status.
 /// </summary>
-public class ProfilePictureModel
+internal class ProfilePictureModel 
 {
     /// <summary>
     /// Gets or sets the path to the profile picture image.

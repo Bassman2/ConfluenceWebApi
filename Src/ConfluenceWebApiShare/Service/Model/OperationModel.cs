@@ -1,5 +1,5 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-internal class OperationModel
+internal class OperationModel : BaseModel
 {
 }
