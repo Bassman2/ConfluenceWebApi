@@ -10,15 +10,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Attachment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Body.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Children.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Container.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Contributors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Descendants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Description.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Statuses.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Expand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Depth.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Locations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Types.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)History.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Icon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InstanceMetrics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Metadata.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProfilePicture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Restrictions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\AccessModeStatusModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\AttachmentModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\BaseModel.cs" />
@@ -40,7 +52,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\LinksModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\MetadataModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\OperationModel.cs" />
-    <Compile Include="..\ConfluenceWebApiShare\Service\Model\ValueRepresentationModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ValueRepresentation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Version.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ValueRepresentationModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\RestrictionsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\VersionModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\UserLinksModel.cs" />

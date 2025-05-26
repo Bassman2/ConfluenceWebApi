@@ -15,6 +15,11 @@ public class Space
         Key = model.Key;
         Name = model.Name;
         Status = model.Status;
+        Icon = model.Icon.CastModel<Icon>();
+        Description = model.Description.CastModel<Description>();
+        Homepage = model.Homepage.CastModel<Content>();
+        Type = model.Type;
+        Metadata = model.Metadata.CastModel<Metadata>(); 
     }
 
     /// <summary>
@@ -36,4 +41,14 @@ public class Space
     /// Gets or sets the status of the space.
     /// </summary>
     public Statuses Status { get; set; }
+
+    public Icon? Icon { get; set; }
+
+    public Description? Description { get; set; }
+
+    public Content? Homepage { get; set; }
+
+    public Types Type { get; set; }
+
+    public Metadata? Metadata { get; set; }
 }

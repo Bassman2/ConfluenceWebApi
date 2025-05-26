@@ -35,4 +35,12 @@ internal class SpaceModel : BaseModel
     [JsonPropertyName("description")]
     public DescriptionModel? Description { get; set; }
 
+    [JsonPropertyName("homepage")]
+    public ContentModel? Homepage { get; set; }
+
+    [JsonPropertyName("type")]
+    public Types Type { get; set; }
+
+    [JsonPropertyName("metadata")]
+    public MetadataModel? Metadata { get; set; }
 }

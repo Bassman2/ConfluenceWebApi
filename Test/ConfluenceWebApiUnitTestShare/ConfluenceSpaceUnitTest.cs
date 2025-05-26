@@ -15,7 +15,14 @@ public class ConfluenceSpaceUnitTest : ConfluenceBaseUnitTest
         Assert.AreEqual(Statuses.Current, item.Status, "Status");
         Assert.AreEqual(testSpaceTitle, item.Title, "Title");
 
+        Assert.IsNotNull(item.Space);
+        Assert.AreEqual(122683496, item.Space.Id, "Space.Id");
+        Assert.AreEqual(testSpace, item.Space.Key, "Space.Key");
+        Assert.AreEqual(testUser, item.Space.Name, "Space.Name");
+        Assert.AreEqual(Statuses.Current, item.Space.Status, "Space.Status");
+        Assert.AreEqual(Types.Personal, item.Space.Type, "Space.TypeName");
 
+        Assert.AreEqual(-1, item.Position, "Position");
     }
 
     [TestMethod]

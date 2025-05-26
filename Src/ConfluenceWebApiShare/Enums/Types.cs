@@ -14,5 +14,7 @@ public enum Types
     /// <summary>
     /// Represents a Confluence blog post.
     /// </summary>
-    Blogpost
+    Blogpost,
+
+    Personal
 }
