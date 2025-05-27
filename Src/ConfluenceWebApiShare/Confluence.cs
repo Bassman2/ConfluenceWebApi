@@ -396,7 +396,7 @@ public sealed class Confluence : IDisposable
     /// <returns>
     /// A <see cref="Content"/> object representing the requested content item, or <c>null</c> if not found.
     /// </returns>
-    public async Task<Content?> GetContentByIdAsync(string id, string? version = null, string? status = null, string? expand = null, CancellationToken cancellationToken = default)
+    public async Task<Content?> GetContentByIdAsync(string id, string? version = null, string? status = null, Expand? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 

@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Contributors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Descendants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Description.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\MacroColors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Representations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Statuses.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Expand.cs" />
@@ -29,6 +30,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Icon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InstanceMetrics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Label.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Macros.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Metadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProfilePicture.cs" />

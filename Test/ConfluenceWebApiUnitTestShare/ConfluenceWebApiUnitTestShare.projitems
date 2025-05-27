@@ -9,6 +9,7 @@
     <Import_RootNamespace>ConfluenceWebApiUnitTest</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BaselineUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfluenceAccessModeUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfluenceBaseUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfluenceChildContentUnitTest.cs" />

@@ -171,7 +171,7 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
         return await PostAsJsonAsync<ContentModel, ContentModel>(req, contentModel, cancellationToken);
     }
 
-    public async Task<ContentModel?> GetContentByIdAsync(string id, string? version, string? status, string? expand, CancellationToken cancellationToken)
+    public async Task<ContentModel?> GetContentByIdAsync(string id, string? version, string? status, Expand? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, ("version", version), ("status", status), ("expand", expand));
         return await GetFromJsonAsync<ContentModel>(req, cancellationToken);
