@@ -360,23 +360,31 @@ public sealed class Confluence : IDisposable
         return res.CastModel<Content>();
     }
 
-    public async Task<Content?> CreatePageAsync(string spaceKey, string ancestorsId, string title, string htmlPage, CancellationToken cancellationToken = default)
+    public async Task<Content?> CreatePageAsync(string spaceKey, string title, string htmlPage, string? ancestorsId = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
         var content = new Content()
         {
-            Type = Types.Page,
+            Type = Types.page,
             Title = title,
-            Ancestors = [new() { Id = ancestorsId }],
+            Ancestors = ancestorsId == null ? null : [new() { Id = ancestorsId }],
             Space = new Space() { Key = spaceKey },
-            Body = new Body() {  Storage = new ValueRepresentation() { Value = htmlPage, Representation = "storage" } }
+            Body = new Body() 
+            {  
+                Storage = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
+                Editor = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
+                View = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
+                ExportView = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
+                AnonymousExportView = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
+                StyledView = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
+            }
 
         };
         var res = await service.CreateContentAsync(content.ToModel(), null, null, cancellationToken);
         return res.CastModel<Content>();
     }
-
+    
     /// <summary>
     /// Retrieves a specific content item from Confluence by its unique identifier.
     /// </summary>
@@ -513,7 +521,7 @@ public sealed class Confluence : IDisposable
     /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>An asynchronous stream of <see cref="Content"/> objects of the specified type.</returns>
-    public async IAsyncEnumerable<Content> GetContentsByTypeAsync(string spaceKey, Types type = Types.Page, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetContentsByTypeAsync(string spaceKey, Types type = Types.page, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 

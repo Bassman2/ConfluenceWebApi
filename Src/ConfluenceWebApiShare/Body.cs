@@ -19,7 +19,12 @@ public class Body
     {
         return new BodyModel()
         {
-            Storage = Storage?.ToModel()
+            Storage = Storage?.ToModel(),
+            Editor = Editor?.ToModel(),
+            View = View?.ToModel(),
+            ExportView = ExportView?.ToModel(),
+            AnonymousExportView = AnonymousExportView?.ToModel(),
+            StyledView = StyledView?.ToModel()
         };
     }
 

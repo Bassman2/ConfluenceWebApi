@@ -1,8 +1,8 @@
-﻿using System.Threading;
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ConfluenceWebApi.Service;
 
-// https://developer.atlassian.com/server/confluence/rest/v920/api-group-space/#api-group-space
+// https://developer.atlassian.com/server/confluence/rest/v923/api-group-space/#api-group-space
 
 internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator, string appName) : JsonService(host, authenticator, appName, SourceGenerationContext.Default)
 {
@@ -26,10 +26,14 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     protected override async Task ErrorHandlingAsync(HttpResponseMessage response, string memberName, CancellationToken cancellationToken)
     {
-        JsonTypeInfo<ErrorModel> jsonTypeInfoOut = (JsonTypeInfo<ErrorModel>)context.GetTypeInfo(typeof(ErrorModel))!;
-        var error = await response.Content.ReadFromJsonAsync<ErrorModel>(jsonTypeInfoOut, cancellationToken);
-        
-        throw new WebServiceException(error?.ToString(), response.RequestMessage?.RequestUri, response.StatusCode, response.ReasonPhrase, memberName);
+        string res = response.Content.ReadAsStringAsync(cancellationToken).Result;
+        if (res.StartsWith('{'))
+        {
+            JsonTypeInfo<ErrorModel> jsonTypeInfoOut = (JsonTypeInfo<ErrorModel>)context.GetTypeInfo(typeof(ErrorModel))!;
+            var error = await response.Content.ReadFromJsonAsync<ErrorModel>(jsonTypeInfoOut, cancellationToken);
+            res = error?.ToString() ?? "Unknown";
+        }
+        throw new WebServiceException(res, response.RequestMessage?.RequestUri, response.StatusCode, response.ReasonPhrase, memberName);
     }
 
     #region Access Mode

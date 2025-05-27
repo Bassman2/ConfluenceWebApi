@@ -9,7 +9,7 @@ public enum Types
     /// <summary>
     /// Represents a Confluence page.
     /// </summary>
-    Page, 
+    page, 
 
     /// <summary>
     /// Represents a Confluence blog post.

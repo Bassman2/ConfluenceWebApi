@@ -27,7 +27,7 @@ public class ValueRepresentation
     public string? Value { get; set; }
 
     [JsonPropertyName("representation")]
-    public string? Representation { get; set; }
+    public Representations Representation { get; set; }
 
     [JsonPropertyName("webresource")]
     public string? Webresource { get; set; }

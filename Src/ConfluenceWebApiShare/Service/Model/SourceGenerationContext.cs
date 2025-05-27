@@ -1,6 +1,8 @@
 ﻿namespace ConfluenceWebApi.Service.Model;
 
-[JsonSourceGenerationOptions()]
+[JsonSourceGenerationOptions(
+    JsonSerializerDefaults.Web, 
+    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull)]
 
 [JsonSerializable(typeof(AccessModeStatusModel))]
 
