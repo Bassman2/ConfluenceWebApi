@@ -3,7 +3,7 @@
 [JsonConverter(typeof(JsonStringEnumConverter<Representations>))]
 public enum Representations
 {
-    Storage,
+    storage,
     Plain,
     View
 }

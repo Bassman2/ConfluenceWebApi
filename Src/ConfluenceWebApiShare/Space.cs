@@ -37,7 +37,7 @@ public class Space
     /// <summary>
     /// Gets or sets the unique identifier of the space.
     /// </summary>
-    public long Id { get; set; }
+    public long? Id { get; set; }
 
     /// <summary>
     /// Gets or sets the key of the space.
@@ -52,7 +52,7 @@ public class Space
     /// <summary>
     /// Gets or sets the status of the space.
     /// </summary>
-    public Statuses Status { get; set; }
+    public Statuses? Status { get; set; }
 
     public Icon? Icon { get; set; }
 
@@ -60,7 +60,7 @@ public class Space
 
     public Content? Homepage { get; set; }
 
-    public Types Type { get; set; }
+    public Types? Type { get; set; }
 
     public Metadata? Metadata { get; set; }
 }

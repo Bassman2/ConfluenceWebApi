@@ -9,7 +9,7 @@ internal class SpaceModel : BaseModel
     /// Gets or sets the unique identifier of the space.
     /// </summary>
     [JsonPropertyName("id")]
-    public long Id { get; set; }
+    public long? Id { get; set; }
 
     /// <summary>
     /// Gets or sets the key of the space.
@@ -27,7 +27,7 @@ internal class SpaceModel : BaseModel
     /// Gets or sets the status of the space (e.g., "current", "archived").
     /// </summary>
     [JsonPropertyName("status")]
-    public Statuses Status { get; set; }
+    public Statuses? Status { get; set; }
 
     [JsonPropertyName("icon")]
     public IconModel? Icon { get; set; }
@@ -39,7 +39,7 @@ internal class SpaceModel : BaseModel
     public ContentModel? Homepage { get; set; }
 
     [JsonPropertyName("type")]
-    public Types Type { get; set; }
+    public Types? Type { get; set; }
 
     [JsonPropertyName("metadata")]
     public MetadataModel? Metadata { get; set; }

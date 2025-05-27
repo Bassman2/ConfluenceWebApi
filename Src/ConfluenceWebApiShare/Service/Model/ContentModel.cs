@@ -15,13 +15,13 @@ internal class ContentModel : BaseModel
     /// Gets or sets the type of the content (e.g., "page", "blogpost").
     /// </summary>
     [JsonPropertyName("type")]
-    public Types Type { get; set; }
+    public Types? Type { get; set; }
 
     /// <summary>
     /// Gets or sets the status of the content (e.g., "current", "archived").
     /// </summary>
     [JsonPropertyName("status")]
-    public Statuses Status { get; set; }
+    public Statuses? Status { get; set; }
 
     /// <summary>
     /// Gets or sets the title of the content.
@@ -45,7 +45,7 @@ internal class ContentModel : BaseModel
     public List<ContentModel>? Ancestors { get; set; }
 
     [JsonPropertyName("position")]
-    public int Position { get; set; }
+    public int? Position { get; set; }
 
     [JsonPropertyName("operations")]
     public List<OperationModel>? Operations { get; set; }

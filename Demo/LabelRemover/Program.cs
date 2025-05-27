@@ -18,7 +18,7 @@ internal class Program
             await foreach (var item in list)
             {
                 Console.WriteLine($"{item.Id}: {item.Type} {item.Space?.Key} {item.Title}");
-                await service.DeleteLabelAsync(item.Id, label);
+                await service.DeleteLabelAsync(item.Id!, label);
             }
 
         }).Wait();

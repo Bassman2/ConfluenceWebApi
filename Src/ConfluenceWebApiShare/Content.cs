@@ -38,7 +38,7 @@ public class Content
     {
         return new ContentModel()
         {
-            //Id = Id,
+            Id = Id,
             Type = Type,
             Status = Status,
             Title = Title,
@@ -61,12 +61,12 @@ public class Content
     /// <summary>
     /// Gets or sets the type of the content (e.g., "page", "blogpost").
     /// </summary>
-    public Types Type { get; set; }
+    public Types? Type { get; set; }
 
     /// <summary>
     /// Gets or sets the status of the content (e.g., "current", "archived").
     /// </summary>
-    public Statuses Status { get; set; }
+    public Statuses? Status { get; set; }
 
     /// <summary>
     /// Gets or sets the title of the content.
@@ -87,7 +87,7 @@ public class Content
     public List<Content>? Ancestors { get; set; }
 
     
-    public int Position { get; set; }
+    public int? Position { get; set; }
 
     
     public List<Operation>? Operations { get; set; }

@@ -372,12 +372,12 @@ public sealed class Confluence : IDisposable
             Space = new Space() { Key = spaceKey },
             Body = new Body() 
             {  
-                Storage = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
-                Editor = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
-                View = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
-                ExportView = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
-                AnonymousExportView = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
-                StyledView = new ValueRepresentation() { Value = htmlPage, Representation = Representations.Storage },
+                Storage = new ValueRepresentation() { Value = htmlPage, Representation = Representations.storage },
+                //Editor = new ValueRepresentation() { Value = htmlPage, Representation = Representations.storage },
+                //View = new ValueRepresentation() { Value = htmlPage, Representation = Representations.storage },
+                //ExportView = new ValueRepresentation() { Value = htmlPage, Representation = Representations.storage },
+                //AnonymousExportView = new ValueRepresentation() { Value = htmlPage, Representation = Representations.storage },
+                //StyledView = new ValueRepresentation() { Value = htmlPage, Representation = Representations.storage },
             }
 
         };
