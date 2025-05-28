@@ -27,10 +27,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Types.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)History.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Html\Emoji.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Html\Table.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Icon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InstanceMetrics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Label.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Macros.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Html\Macros.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Metadata.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProfilePicture.cs" />

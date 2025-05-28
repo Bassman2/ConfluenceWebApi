@@ -1,4 +1,4 @@
-﻿namespace ConfluenceWebApi;
+﻿namespace ConfluenceWebApi.Html;
 
 public static class Macros
 {
