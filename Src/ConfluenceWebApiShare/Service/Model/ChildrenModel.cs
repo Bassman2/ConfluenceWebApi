@@ -3,7 +3,7 @@
 internal class ChildrenModel : BaseModel
 {
     [JsonPropertyName("attachment")]
-    public ResultListModel<AttachmentModel>? Attachment { get; set; }
+    public ResultListModel<ContentModel>? Attachment { get; set; }
 
     [JsonPropertyName("comment")]
     public ResultListModel<CommentModel>? Comment { get; set; }

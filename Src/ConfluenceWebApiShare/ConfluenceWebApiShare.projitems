@@ -9,7 +9,6 @@
     <Import_RootNamespace>ConfluenceWebApi</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Attachment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Body.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Children.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Comment.cs" />
@@ -38,7 +37,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ProfilePicture.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Restrictions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\AccessModeStatusModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\AttachmentModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\BaseModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\BodyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ChildrenModel.cs" />

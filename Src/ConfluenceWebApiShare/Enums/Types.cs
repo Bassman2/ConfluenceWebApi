@@ -16,5 +16,7 @@ public enum Types
     /// </summary>
     Blogpost,
 
-    Personal
+    Personal,
+
+    Attachment
 }

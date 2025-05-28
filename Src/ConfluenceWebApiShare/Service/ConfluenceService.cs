@@ -52,17 +52,24 @@ internal sealed class ConfluenceService(Uri host, IAuthenticator? authenticator,
 
     #region Attachments
 
-    public IAsyncEnumerable<AttachmentModel?> GetAttachmentAsync(string id, string? expand, CancellationToken cancellationToken)
+    public IAsyncEnumerable<ContentModel?> GetAttachmentAsync(string id, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
-        return GetResultListYieldAsync<AttachmentModel>(req, cancellationToken);
+        return GetResultListYieldAsync<ContentModel>(req, cancellationToken);
     }
 
-    public async Task<AttachmentModel?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ContentModel>?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand, CancellationToken cancellationToken)
     {
         var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
-        return await PostFilesFromJsonAsync<AttachmentModel>(req, files, cancellationToken);
+        var res = await PostFilesFromJsonAsync<ResultListModel<ContentModel>>(req, files, cancellationToken);
+        return res?.Results;
     }
+
+    //public async Task<ContentModel?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand, CancellationToken cancellationToken)
+    //{
+    //    var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
+    //    return await PostFilesFromJsonAsync<ContentModel>(req, files, cancellationToken);
+    //}
 
     public async Task MoveAttachmentAsync(string id, string attachmentId, string newName, string newContentId, CancellationToken cancellationToken)
     {

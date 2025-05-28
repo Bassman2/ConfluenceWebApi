@@ -1,4 +1,6 @@
-﻿namespace ConfluenceWebApi;
+﻿using System.IO.Enumeration;
+
+namespace ConfluenceWebApi;
 
 /// <summary>
 /// Represents a client for interacting with the Confluence API.
@@ -72,16 +74,16 @@ public sealed class Confluence : IDisposable
     /// <param name="expand">Optional. A comma-separated list of properties to expand in the response (e.g., "version", "container").</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>
-    /// An asynchronous stream of <see cref="Attachment"/> objects associated with the specified content item.
+    /// An asynchronous stream of <see cref="Content"/> objects associated with the specified content item.
     /// </returns>
-    public async IAsyncEnumerable<Attachment> GetAttachmentAsync(string id, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetAttachmentAsync(string id, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
         var res = service.GetAttachmentAsync(id, expand, cancellationToken);
         await foreach (var item in res)
         {
-            yield return item.CastModel<Attachment>()!;
+            yield return item.CastModel<Content>()!;
         }
     }
 
@@ -93,16 +95,50 @@ public sealed class Confluence : IDisposable
     /// <param name="expand">Optional. A comma-separated list of properties to expand in the response (e.g., "version", "container").</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>
-    /// A task that represents the asynchronous operation. The task result contains an <see cref="Attachment"/> object representing the created attachment, or <c>null</c> if creation failed.
+    /// A task that represents the asynchronous operation. The task result contains an <see cref="Content"/> object representing the created attachment, or <c>null</c> if creation failed.
     /// </returns>
-    public async Task<Attachment?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand = null, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNullOrNotConnected(service);
 
         var res = await service.CreateAttachmentAsync(id, files, expand, cancellationToken);
-        return res.CastModel<Attachment>();
+        return res.CastModel<Content>();
     }
 
+    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, IEnumerable<(string fileName, string filePath)> files, string? expand = null, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+
+        var list = files.Select(f => new KeyValuePair<string, Stream>(f.fileName, File.OpenRead(f.filePath))).ToList();
+        var res = await service.CreateAttachmentAsync(id, list, expand, cancellationToken);
+
+        list.ForEach(f => f.Value.Close());
+        return res.CastModel<Content>();
+    }
+
+    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, string fileName, string filePath, string? expand = null, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+        Stream stream = File.OpenRead(filePath);
+        List<KeyValuePair<string, Stream>> list = [new(fileName, stream)];
+
+        var res = await service.CreateAttachmentAsync(id, list, expand, cancellationToken);
+
+        stream.Close();
+        return res.CastModel<Content>();
+    }
+
+    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, string fileName, Stream fileStream, string? expand = null, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNullOrNotConnected(service);
+        List<KeyValuePair<string, Stream>> list = [new(fileName, fileStream)];
+
+        var res = await service.CreateAttachmentAsync(id, list, expand, cancellationToken);
+
+        return res.CastModel<Content>();
+    }
+
+    /// <summary>
     /// <summary>
     /// Moves an attachment to a new content item and/or renames it in Confluence.
     /// </summary>

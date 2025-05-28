@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)BaselineUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfluenceAccessModeUnitTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfluenceAttachmentUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfluenceBaseUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfluenceChildContentUnitTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfluenceContentLabelsUnitTest.cs" />
