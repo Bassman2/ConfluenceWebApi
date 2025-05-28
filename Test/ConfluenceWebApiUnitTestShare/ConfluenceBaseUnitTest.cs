@@ -24,4 +24,15 @@ public abstract class ConfluenceBaseUnitTest
 
     protected static readonly string testSpaceKey = "~" + KeyStore.Key(storeKey)!.Login!;
     protected static readonly string testSpaceTitle = KeyStore.Key(storeKey)!.User + "s Startseite";
+
+    protected const string testPageBaseline = "478111079";
+
+    protected const string testPageFix = "478097426";
+    protected const string testPageFixAttachment = "478114423";
+    protected const string testPageFixChildren = "478101610";
+    protected const string testPageFixEmoji = "478114171";
+    protected const string testPageFixLabel = "478097445";
+
+    protected const string testPageDyn = "478097428";
+    protected const string testPageDynAttachment = "478115004";
 }

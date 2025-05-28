@@ -16,4 +16,13 @@ public static class Macros
     {
         return $"<ac:structured-macro ac:name=\"children\" ac:schema-version=\"2\" ac:macro-id=\"{CreateGuid}\" />";
     }
+
+    public static string CreateAttachemntView(string fileName, int height = 250)
+    {
+        return
+        /**/    $"<ac:structured-macro ac:name=\"view-file\" ac:schema-version=\"1\" ac:macro-id=\"{CreateGuid}\">" + 
+        /**/        $"<ac:parameter ac:name=\"name\"><ri:attachment ri:filename=\"{fileName}\" /></ac:parameter>" + 
+        /**/        $"<ac:parameter ac:name=\"height\">{height}</ac:parameter>" +
+        /**/    "</ac:structured-macro>";
+    }
 }

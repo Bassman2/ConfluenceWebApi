@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Types.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)History.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Html\Attachment.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Html\Emoji.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Html\Table.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Icon.cs" />

@@ -20,7 +20,7 @@ public class BaselineUnitTest : ConfluenceBaseUnitTest
 
 
         var hardwareTable = new Table("CI Item", "Version", "Status")
-            .AddRow("Hardware 1", "2025.02", StatusReleased)
+            .AddRow(Attachment.CreateLink("Demo.pdf"), "2025.02", StatusReleased)
             .AddRow("Hardware 2", "2025.02", StatusReleased)
             .AddRow("Hardware 3", "2025.02", StatusReleased)
             .AddRow("Hardware 4", Emoji.Question, StatusNotAvailable)
@@ -33,6 +33,10 @@ public class BaselineUnitTest : ConfluenceBaseUnitTest
 
 
         var hardware = await confluence.CreatePageAsync(testSpaceKey, "CI Hardware - Baseline EBMDUs_" + pi, hardwarePage, baseline?.Id);
+
+        var x1 = await confluence.CreateAttachmentAsync(hardware!.Id!, "Demo.pdf", @"D:\_Data\Confluence\Demo.pdf");
+
+
         var management = await confluence.CreatePageAsync(testSpaceKey, "CI Management - Baseline EBMDUs_" + pi, "Child", baseline?.Id);
         var openSource = await confluence.CreatePageAsync(testSpaceKey, "CI OSS - Baseline EBMDUs_" + pi, "Child", baseline?.Id);
         var components = await confluence.CreatePageAsync(testSpaceKey, "CI SW Components - Baseline EBMDUs_" + pi, "Child", baseline?.Id);
@@ -55,7 +59,16 @@ public class BaselineUnitTest : ConfluenceBaseUnitTest
     {
 
         using var confluence = new Confluence(storeKey, appName);
-        var baseline = await confluence.GetContentByIdAsync("478114171", expand: Expand.All);
+        var baseline = await confluence.GetContentByIdAsync(testPageFixEmoji, expand: Expand.All);
+
+    }
+
+    [TestMethod]
+    public async Task TestMethodCheckAttachmentAsync()
+    {
+
+        using var confluence = new Confluence(storeKey, appName);
+        var baseline = await confluence.GetContentByIdAsync(testPageFixAttachment, expand: Expand.All);
 
     }
 
