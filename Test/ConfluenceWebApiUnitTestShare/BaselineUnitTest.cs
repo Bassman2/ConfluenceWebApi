@@ -10,7 +10,7 @@ public class BaselineUnitTest : ConfluenceBaseUnitTest
     {
         string pi = "PI20_25.22";
 
-        string page = CreateStateTable(StatusReleased) + Space + CreateStateTable(StatusDraft) + Space + Macros.CreateChildren();
+        string page = CreateStateTable(StatusReleased) + Space + CreateStateTable(StatusDraft) + Space + StorageFormat.CreateChildren();
 
         using var confluence = new Confluence(storeKey, appName);
         var baseline = await confluence.CreatePageAsync(testSpaceKey, "Baseline EBMDUs_" + pi, page, "478111079");
@@ -20,16 +20,16 @@ public class BaselineUnitTest : ConfluenceBaseUnitTest
 
 
         var hardwareTable = new Table("CI Item", "Version", "Status")
-            .AddRow(Attachment.CreateLink("Demo.pdf"), "2025.02", StatusReleased)
+            .AddRow(StorageFormat.CreateLink("Demo.pdf"), "2025.02", StatusReleased)
             .AddRow("Hardware 2", "2025.02", StatusReleased)
             .AddRow("Hardware 3", "2025.02", StatusReleased)
-            .AddRow("Hardware 4", Emoji.Question, StatusNotAvailable)
+            .AddRow("Hardware 4", StorageFormat.EmojiQuestion, StatusNotAvailable)
             .ToString();
 
         //var hardwareTable2 = new Table("CI Item", "Version", "Current Status" );
         //hardwareTable2.AddRow("Milestones", "2025.05", Macros.CreateStatus(MacroColors.Green, "Released"));
         //hardwareTable2.AddRow("HW Test Specification", "(?)", Macros.CreateStatus(MacroColors.Red, "Not Available"));
-        string hardwarePage = releaseTypeTable + Space + hardwareTable + Space + "test1 "+ Emoji.Tick + Space + "test2 " + Emoji.Cross + Space + "test3 " + Emoji.Plus;
+        string hardwarePage = releaseTypeTable + Space + hardwareTable + Space + "test1 "+ StorageFormat.EmojiTick + Space + "test2 " + StorageFormat.EmojiCross + Space + "test3 " + StorageFormat.EmojiPlus;
 
 
         var hardware = await confluence.CreatePageAsync(testSpaceKey, "CI Hardware - Baseline EBMDUs_" + pi, hardwarePage, baseline?.Id);
@@ -89,11 +89,11 @@ public class BaselineUnitTest : ConfluenceBaseUnitTest
         return table;
     }
 
-    private static readonly string StatusNotAvailable = Macros.CreateStatus(MacroColors.Red, "Not Available");
-    private static readonly string StatusDraft = Macros.CreateStatus(MacroColors.Grey, "Draft");
-    private static readonly string StatusProposed = Macros.CreateStatus(MacroColors.Yellow, "Proposed");
-    private static readonly string StatusPreviewed = Macros.CreateStatus(MacroColors.Blue, "Previewed OK");
-    private static readonly string StatusReleased = Macros.CreateStatus(MacroColors.Green, "Released");
+    private static readonly string StatusNotAvailable = StorageFormat.CreateStatus(MacroColors.Red, "Not Available");
+    private static readonly string StatusDraft = StorageFormat.CreateStatus(MacroColors.Grey, "Draft");
+    private static readonly string StatusProposed = StorageFormat.CreateStatus(MacroColors.Yellow, "Proposed");
+    private static readonly string StatusPreviewed = StorageFormat.CreateStatus(MacroColors.Blue, "Previewed OK");
+    private static readonly string StatusReleased = StorageFormat.CreateStatus(MacroColors.Green, "Released");
 
 
     #endregion
