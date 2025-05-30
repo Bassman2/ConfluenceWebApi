@@ -29,6 +29,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlEmojis.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlHeading.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlLink.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlTable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlText.cs" />

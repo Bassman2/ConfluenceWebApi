@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿namespace ConfluenceWebApi.Xhtml;
 
-namespace ConfluenceWebApi.Xhtml;
+//  https://confluence.atlassian.com/doc/confluence-storage-format-790796544.html
+
+
+// https://developer.atlassian.com/server/confluence/rest/v923/api-group-space/#api-group-space
+
 
 public class XhtmlElement(params XhtmlElement[] elements)
 {
