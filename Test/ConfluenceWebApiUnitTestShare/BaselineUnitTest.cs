@@ -1,4 +1,5 @@
-﻿using static System.Net.Mime.MediaTypeNames;
+﻿using ConfluenceWebApi.Xhtml;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ConfluenceWebApiUnitTest;
 
@@ -70,6 +71,34 @@ public class BaselineUnitTest : ConfluenceBaseUnitTest
         using var confluence = new Confluence(storeKey, appName);
         var baseline = await confluence.GetContentByIdAsync(testPageFixAttachment, expand: Expand.All);
 
+    }
+
+    [TestMethod]
+    public void TestMethodXhtml()
+    {
+        string page = new XhtmlElement(
+            new XhtmlTable(
+                new XhtmlTableRow(
+                    new XhtmlTableHeadingCell("hxxx"),
+                    new XhtmlTableHeadingCell("hyyy"),
+                    new XhtmlTableHeadingCell("hzzz")),
+                new XhtmlTableRow(
+                    new XhtmlTableCell("1xxx"),
+                    new XhtmlTableCell("1yyy"),
+                    new XhtmlTableCell("1zzz")),
+                new XhtmlTableRow(
+                    new XhtmlTableCell("2xxx"),
+                    new XhtmlTableCell("2yyy"),
+                    new XhtmlTableCell("2zzz")),
+                new XhtmlTableRow(
+                    new XhtmlTableCell("3xxx"),
+                    new XhtmlTableCell("3yyy"),
+                    new XhtmlTableCell("3zzz"))
+                ),
+            new XhtmlText("text")
+            );
+
+        Assert.AreEqual("text", page);
     }
 
     #region internal html
