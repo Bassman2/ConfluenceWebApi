@@ -8,9 +8,10 @@
 
 public class XhtmlElement(params XhtmlElement[] elements)
 {
-    public List<XhtmlElement> Children { get; } = [.. elements];
-
+    protected static string CreateGuid => Guid.NewGuid().ToString("D");
     protected string ChildrenText => string.Concat(Children);
+
+    public List<XhtmlElement> Children { get; } = [.. elements];
 
     public override string? ToString() => ChildrenText;
 
