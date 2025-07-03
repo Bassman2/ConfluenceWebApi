@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Demo/">
+    <Project Path="Demo/LabelRemover/LabelRemover.csproj" />
+  </Folder>
+  <Folder Name="/Src/">
+    <Project Path="../WebServiceClient/Src/WebServiceClientShare/WebServiceClientShare.shproj" />
+    <Project Path="Src/ConfluenceWebApi80/ConfluenceWebApi80.csproj" />
+    <Project Path="Src/ConfluenceWebApi90/ConfluenceWebApi90.csproj" />
+    <Project Path="Src/ConfluenceWebApiShare/ConfluenceWebApiShare.shproj" />
+  </Folder>
+  <Folder Name="/Test/">
+    <Project Path="Test/ConfluenceWebApiUnitTest80/ConfluenceWebApiUnitTest80.csproj" />
+    <Project Path="Test/ConfluenceWebApiUnitTest90/ConfluenceWebApiUnitTest90.csproj" />
+    <Project Path="Test/ConfluenceWebApiUnitTestShare/ConfluenceWebApiUnitTestShare.shproj" />
+  </Folder>
+</Solution>
