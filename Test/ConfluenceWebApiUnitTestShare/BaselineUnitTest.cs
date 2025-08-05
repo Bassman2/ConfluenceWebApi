@@ -103,7 +103,7 @@ public class BaselineUnitTest : ConfluenceBaseUnitTest
 
     #region internal html
 
-    private static readonly string Space = "<p><br /></p>";
+    //private static readonly string Space = "<p><br /></p>";
 
     //private static string CreateStateTable(MacroColors color, string title)
     //{
