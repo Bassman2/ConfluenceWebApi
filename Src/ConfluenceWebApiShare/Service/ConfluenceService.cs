@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace ConfluenceWebApi.Service;
+﻿namespace ConfluenceWebApi.Service;
 
 // https://developer.atlassian.com/server/confluence/rest/v923/api-group-space/#api-group-space
 
