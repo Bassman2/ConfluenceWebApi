@@ -9,7 +9,7 @@
 public class XhtmlLinkToExternal(string link, params XhtmlElement[] elements) : XhtmlElement(elements)
 {
     public override string ToString()
-        => $"<a href=\"{link}\">{ChildrenText}</a>";
+        => $"<a href=\"{link.Replace("&", "&amp;")}\">{ChildrenText}</a>";
 }
 
 public class XhtmlLinkToPage(string page, string text) : XhtmlElement
