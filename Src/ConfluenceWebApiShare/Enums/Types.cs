@@ -18,5 +18,7 @@ public enum Types
 
     Personal,
 
-    Attachment
+    Attachment,
+
+    global
 }
