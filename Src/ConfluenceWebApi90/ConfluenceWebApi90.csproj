@@ -7,7 +7,7 @@
     <AssemblyName>ConfluenceWebApi</AssemblyName>
     <RootNamespace>ConfluenceWebApi</RootNamespace>
     <Version>0.0.1.0</Version>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
