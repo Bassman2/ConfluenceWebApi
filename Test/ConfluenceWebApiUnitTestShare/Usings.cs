@@ -9,6 +9,6 @@ global using WebServiceClient;
 global using WebServiceClient.Store;
 
 global using ConfluenceWebApi;
-global using ConfluenceWebApi.Html;
+global using ConfluenceWebApi.Xhtml;
 
 //global using ArtifactoryWebApiUnitTest.Model;
