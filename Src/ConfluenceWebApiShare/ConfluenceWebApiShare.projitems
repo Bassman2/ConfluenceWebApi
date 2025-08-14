@@ -34,8 +34,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlTable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlText.cs" />
-    <Compile Include="..\ConfluenceWebApiShare\Html\StorageFormat.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Html\Table.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Icon.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InstanceMetrics.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Label.cs" />

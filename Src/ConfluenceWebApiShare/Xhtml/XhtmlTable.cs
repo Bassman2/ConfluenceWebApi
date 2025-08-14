@@ -5,10 +5,11 @@ public class XhtmlTable(params XhtmlTableRow[] elements) : XhtmlElement(elements
     public override string ToString() => $"<table><tbody>{ChildrenText}</tbody></table>";
 }
 
-public class XhtmlTableRow(params XhtmlTableCell[] elements) : XhtmlElement(elements)
+public class XhtmlTableRow(params XhtmlElement[] elements) : XhtmlElement([.. elements.Select(e => e is XhtmlTableCell ? e : new XhtmlTableCell(e))])
 {
     public override string ToString() => $"<tr>{ChildrenText}</tr>";
 }
+
 
 public class XhtmlTableHeadingCell(params XhtmlElement[] elements) : XhtmlTableCell(elements)
 {
