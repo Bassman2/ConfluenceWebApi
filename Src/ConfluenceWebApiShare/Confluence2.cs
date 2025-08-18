@@ -1,7 +1,4 @@
-﻿using ConfluenceWebApi.Service.Model;
-using System.Reflection;
-
-namespace ConfluenceWebApi;
+﻿namespace ConfluenceWebApi;
 
 /// <summary>
 /// Represents a client for interacting with the Confluence API.
