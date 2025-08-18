@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Body.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Children.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Comment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Confluence2.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Container.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Contributors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Descendants.cs" />
