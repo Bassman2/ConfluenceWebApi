@@ -32,6 +32,13 @@ public sealed class Confluence2 : JsonService
         throw new WebServiceException(res, response.RequestMessage?.RequestUri, response.StatusCode, response.ReasonPhrase, memberName);
     }
 
+    public override async Task<string?> GetVersionStringAsync(CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNotConnected(client);
+
+        var res = await GetFromJsonAsync<ManifestModel>("rest/applinks/1.0/manifest", cancellationToken);
+        return res != null ? $"{res.Version}.{res.BuildNumber}" : "0.0.0";
+    }
 
     #region Access Mode
 

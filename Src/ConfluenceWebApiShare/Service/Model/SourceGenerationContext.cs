@@ -28,6 +28,7 @@
 
 [JsonSerializable(typeof(ErrorModel))]
 
+[JsonSerializable(typeof(ManifestModel))]
 internal partial class SourceGenerationContext : JsonSerializerContext
 {
 }

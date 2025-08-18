@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Types.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)History.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Service\Model\ManifestModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlEmojis.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlHeading.cs" />
