@@ -3,47 +3,42 @@
 /// <summary>
 /// Represents a client for interacting with the Confluence API.
 /// </summary>
-public sealed class Confluence : IDisposable
+public sealed class Confluence : JsonService
 {
-    private ConfluenceService? service;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Confluence"/> class using a store key and application name.
-    /// </summary>
-    /// <param name="storeKey">The key used to retrieve the Confluence host and token from the key store.</param>
-    /// <param name="appName">The name of the application.</param>
-    public Confluence(string storeKey, string appName)
-       : this(new Uri(KeyStore.Key(storeKey)?.Host!), KeyStore.Key(storeKey)!.Token!, appName)
+    public Confluence(string storeKey, string appName) : base(storeKey, appName, SourceGenerationContext.Default)
     { }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Confluence"/> class with the specified host, token, and application name.
-    /// </summary>
-    /// <param name="host">The base URI of the Confluence instance.</param>
-    /// <param name="token">The authentication token for accessing the Confluence API.</param>
-    /// <param name="appName">The name of the application.</param>
-    public Confluence(Uri host, string token, string appName)
+    public Confluence(Uri host, IAuthenticator? authenticator, string appName) : base(host, authenticator, appName, SourceGenerationContext.Default)
+    { }
+
+    protected override string? AuthenticationTestUrl => null;
+
+    protected override void InitializeClient(HttpClient client)
     {
-        service = new ConfluenceService(host,
-            new MultiAuthenticator(           
-                new BearerAuthenticator(token) 
-                //, new Basic2Authenticator(token)
-                
-                ),
-            appName);
+        base.InitializeClient(client);
+        client.DefaultRequestHeaders.Add("X-Atlassian-Token", "no-check");
     }
 
-    /// <summary>
-    /// Releases all resources used by the <see cref="Confluence"/> instance.
-    /// </summary>
-    public void Dispose()
+    protected override async Task ErrorHandlingAsync(HttpResponseMessage response, string memberName, CancellationToken cancellationToken)
     {
-        if (this.service != null)
+        string res = response.Content.ReadAsStringAsync(cancellationToken).Result;
+        if (res.StartsWith('{'))
         {
-            this.service.Dispose();
-            this.service = null;
+            JsonTypeInfo<ErrorModel> jsonTypeInfoOut = (JsonTypeInfo<ErrorModel>)context.GetTypeInfo(typeof(ErrorModel))!;
+            var error = await response.Content.ReadFromJsonAsync<ErrorModel>(jsonTypeInfoOut, cancellationToken);
+            //res = error?.ToString() ?? "Unknown";
+            throw new WebServiceException(error?.Message, response.RequestMessage?.RequestUri, response.StatusCode, response.ReasonPhrase, memberName);
         }
-        GC.SuppressFinalize(this);
+        throw new WebServiceException(res, response.RequestMessage?.RequestUri, response.StatusCode, response.ReasonPhrase, memberName);
+    }
+
+    public override async Task<string?> GetVersionStringAsync(CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNotConnected(client);
+
+        var res = await GetFromJsonAsync<ManifestModel>("rest/applinks/1.0/manifest", cancellationToken);
+        //return res != null ? $"{res.Version}.{res.BuildNumber}" : "0.0.0";
+        return res?.Version ?? "0.0.0";
     }
 
     #region Access Mode
@@ -55,13 +50,17 @@ public sealed class Confluence : IDisposable
     /// <returns>The access mode status as a string, or <c>null</c> if unavailable.</returns>
     public async Task<string?> GetAccessModeStatusAsync(CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = await service.GetAccessModeStatusAsync(cancellationToken);
+        var res = await GetStringAsync("/rest/api/accessmode", cancellationToken);
         return res?.Trim('"');
     }
 
     #endregion
+
+    // Admin Group
+
+    // Admin User
 
     #region Attachments
 
@@ -76,9 +75,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async IAsyncEnumerable<Content> GetAttachmentAsync(string id, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.GetAttachmentAsync(id, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
+        var res = GetResultListYieldAsync<ContentModel>(req, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Content>()!;
@@ -97,43 +97,48 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = await service.CreateAttachmentAsync(id, files, expand, cancellationToken);
-        return res.CastModel<Content>();
+        var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
+        var res = await PostFilesFromJsonAsync<ResultListModel<ContentModel>>(req, files, cancellationToken);
+        return res?.Results.CastModel<Content>();
     }
 
     public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, IEnumerable<(string fileName, string filePath)> files, string? expand = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
         var list = files.Select(f => new KeyValuePair<string, Stream>(f.fileName, File.OpenRead(f.filePath))).ToList();
-        var res = await service.CreateAttachmentAsync(id, list, expand, cancellationToken);
-
+        var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
+        var res = await PostFilesFromJsonAsync<ResultListModel<ContentModel>>(req, list, cancellationToken);
         list.ForEach(f => f.Value.Close());
-        return res.CastModel<Content>();
+        return res?.Results.CastModel<Content>();
     }
 
     public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, string fileName, string filePath, string? expand = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
+
         Stream stream = File.OpenRead(filePath);
         List<KeyValuePair<string, Stream>> list = [new(fileName, stream)];
 
-        var res = await service.CreateAttachmentAsync(id, list, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
+        var res = await PostFilesFromJsonAsync<ResultListModel<ContentModel>>(req, list, cancellationToken);
 
         stream.Close();
-        return res.CastModel<Content>();
+        return res?.Results.CastModel<Content>();
     }
 
     public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, string fileName, Stream fileStream, string? expand = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
+
         List<KeyValuePair<string, Stream>> list = [new(fileName, fileStream)];
 
-        var res = await service.CreateAttachmentAsync(id, list, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "child/attachment", ("expand", expand));
+        var res = await PostFilesFromJsonAsync<ResultListModel<ContentModel>>(req, list, cancellationToken);
 
-        return res.CastModel<Content>();
+        return res?.Results.CastModel<Content>();
     }
 
     /// <summary>
@@ -148,9 +153,10 @@ public sealed class Confluence : IDisposable
     /// <returns>A task that represents the asynchronous move operation.</returns>
     public async Task MoveAttachmentAsync(string id, string attachmentId, string newName, string newContentId, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        await service.MoveAttachmentAsync(id, attachmentId, newName, newContentId, cancellationToken);
+        var req = CombineUrl("/rest/api/content/", id, "child/attachment/", attachmentId, "/move", ("newName", newName), ("newContentId", newContentId));
+        await PostAsync(req, cancellationToken);
     }
 
     /// <summary>
@@ -164,9 +170,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async Task RemoveAttachmentAsync(string id, string attachmentId, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        await RemoveAttachmentAsync(id, attachmentId, cancellationToken);
+        var req = CombineUrl("/rest/api/content/", id, "child/attachment/", attachmentId);
+        await DeleteAsync(req, cancellationToken);
     }
 
     /// <summary>
@@ -181,12 +188,18 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async Task RemoveAttachmentVersionAsync(string id, string attachmentId, string version, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        await RemoveAttachmentVersionAsync(id, attachmentId, version, cancellationToken);
+        var req = CombineUrl("/rest/api/content/", id, "child/attachment/", attachmentId, "version", version);
+        await DeleteAsync(req, cancellationToken);
     }
 
     #endregion
+
+    // Backup and Restore
+
+    // Category
+
 
     #region Child Content
 
@@ -202,9 +215,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async Task<Children?> GetChildrenOfContentAsync(string id, int? parentVersion = null, Expand? expand = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = await service.GetChildrenOfContentAsync(id, parentVersion, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "child", ("parentVersion", parentVersion), ("expand", expand));
+        var res = await GetFromJsonAsync<ChildrenModel>(req, cancellationToken);
         return res.CastModel<Children>();
     }
 
@@ -221,9 +235,11 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async IAsyncEnumerable<Content> GetChildrenOfContentByTypeAsync(string id, string type, int parentVersion, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.GetChildrenOfContentByTypeAsync(id, type, parentVersion, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "child", type, ("parentVersion", parentVersion), ("expand", expand));
+        var res = GetResultListYieldAsync<ContentModel>(req, cancellationToken);
+
         await foreach (var item in res)
         {
             yield return item.CastModel<Content>()!;
@@ -244,9 +260,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async IAsyncEnumerable<Content> GetCommentsOfContentAsync(string id, string depth, Locations? location, int parentVersion, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.GetCommentsOfContentAsync(id, depth, location, parentVersion, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "child/comment", ("depth", depth), ("location", location), ("parentVersion", parentVersion), ("expand", expand));
+        var res = GetResultListYieldAsync<ContentModel>(req, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Content>()!;
@@ -254,6 +271,9 @@ public sealed class Confluence : IDisposable
     }
 
     #endregion
+
+    // Content Blueprint
+    // Content Body
 
     #region Content Descendant
 
@@ -268,9 +288,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async IAsyncEnumerable<Content> GetDescendantsAsync(string id, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.GetDescendantsAsync(id, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "descendant", ("expand", expand));
+        var res = GetResultListYieldAsync<ContentModel>(req, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Content>()!;
@@ -289,9 +310,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async IAsyncEnumerable<Content> GetDescendantsOfTypeAsync(string id, string type, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.GetDescendantsOfTypeAsync(id, type, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "descendant", type, ("expand", expand));
+        var res = GetResultListYieldAsync<ContentModel>(req, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Content>()!;
@@ -313,9 +335,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async IAsyncEnumerable<Label> GetLabelsAsync(string id, string? prefix = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.GetLabelsAsync(id, prefix, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "label", ("prefix", prefix));
+        var res = GetResultListYieldAsync<LabelModel>(req, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Label>()!;
@@ -333,9 +356,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async IAsyncEnumerable<Label> AddLabelsAsync(string id, Label label, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.AddLabelsAsync(id, label, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "label");
+        var res = PostResultListYieldAsync<LabelModel, LabelModel>(req, label, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Label>()!;
@@ -353,9 +377,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async Task DeleteLabelAsync(string id, string name, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        await service.DeleteLabelAsync(id, name, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "label", ("name", name));
+        await DeleteAsync(req, cancellationToken);
     }
 
     #endregion
@@ -377,9 +402,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async IAsyncEnumerable<Content?> GetContentAsync(string spaceKey, DateTime? postingDay = null, string? title = null, string? type = null, string? status = null, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.GetContentAsync(spaceKey, postingDay, title, type, status, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", ("spaceKey", spaceKey), ("postingDay", postingDay?.ToString("yyyy-MM-dd")), ("title", title), ("type", type), ("status", status), ("expand", expand));
+        var res = GetResultListYieldAsync<ContentModel>(req, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Content>()!;
@@ -388,15 +414,16 @@ public sealed class Confluence : IDisposable
 
     public async Task<Content?> CreateContentAsync(Content content, string? status = null, Expand? expand = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = await service.CreateContentAsync(content.ToModel(), status, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", ("status", status), ("expand", expand));
+        var res = await PostAsJsonAsync<ContentModel, ContentModel>(req, content.ToModel(), cancellationToken);
         return res.CastModel<Content>();
     }
 
     public async Task<Content?> CreatePageAsync(string spaceKey, string title, string htmlPage, string? ancestorsId = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
         var content = new Content()
         {
@@ -404,8 +431,8 @@ public sealed class Confluence : IDisposable
             Title = title,
             Ancestors = ancestorsId == null ? null : [new() { Id = ancestorsId }],
             Space = new Space() { Key = spaceKey },
-            Body = new Body() 
-            {  
+            Body = new Body()
+            {
                 Storage = new ValueRepresentation() { Value = htmlPage, Representation = Representations.storage },
                 //Editor = new ValueRepresentation() { Value = htmlPage, Representation = Representations.storage },
                 //View = new ValueRepresentation() { Value = htmlPage, Representation = Representations.storage },
@@ -415,10 +442,11 @@ public sealed class Confluence : IDisposable
             }
 
         };
-        var res = await service.CreateContentAsync(content.ToModel(), null, null, cancellationToken);
+        var req = CombineUrl("rest/api/content");
+        var res = await PostAsJsonAsync<ContentModel, ContentModel>(req, content.ToModel(), cancellationToken);
         return res.CastModel<Content>();
     }
-    
+
     /// <summary>
     /// Retrieves a specific content item from Confluence by its unique identifier.
     /// </summary>
@@ -432,9 +460,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async Task<Content?> GetContentByIdAsync(string id, string? version = null, string? status = null, Expand? expand = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = await service.GetContentByIdAsync(id, version, status, expand, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, ("version", version), ("status", status), ("expand", expand));
+        var res = await GetFromJsonAsync<ContentModel>(req, cancellationToken);
         return res.CastModel<Content>();
     }
 
@@ -447,9 +476,10 @@ public sealed class Confluence : IDisposable
     /// <returns>A task that represents the asynchronous delete operation.</returns>
     public async Task DeleteContentAsync(string id, string? status = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        await service.DeleteContentAsync(id, status, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, ("status", status));
+        await DeleteAsync(req, cancellationToken);
     }
 
     /// <summary>
@@ -464,9 +494,10 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async IAsyncEnumerable<Content> SearchContentAsync(string cql, string? cqlcontext = null, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.SearchContentAsync(cql, cqlcontext, expand, cancellationToken);
+        var req = CombineUrl("/rest/api/content/search", ("cql", cql), ("cqlcontext", cqlcontext), ("expand", expand));
+        var res = GetResultListYieldAsync<ContentModel>(req, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Content>()!;
@@ -474,6 +505,8 @@ public sealed class Confluence : IDisposable
     }
 
     #endregion
+
+    // Content Restrictions
 
     #region Content Version
 
@@ -488,44 +521,51 @@ public sealed class Confluence : IDisposable
     /// </returns>
     public async Task DeleteContentHistoryAsync(string id, string versionNumber, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        await service.DeleteContentHistoryAsync(id, versionNumber, cancellationToken);
+        var req = CombineUrl("rest/api/content", id, "version", versionNumber);
+        await DeleteAsync(req, cancellationToken);
     }
 
     #endregion
+
+    // Content Watchers
+    // GlobalColorScheme
+    // Group
 
     #region Instance Metrics
 
     /// <summary>
     /// Retrieves instance metrics for a specified Confluence content item.
     /// </summary>
-    /// <param name="id">The unique identifier of the content item for which to retrieve instance metrics.</param>
-    /// <param name="version">Optional. The version of the content to retrieve metrics for. If <c>null</c>, the latest version is used.</param>
-    /// <param name="status">Optional. The status of the content (e.g., "current", "draft").</param>
-    /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>
     /// A task that represents the asynchronous operation. The task result contains an <see cref="InstanceMetrics"/> object with the instance metrics, or <c>null</c> if not found.
     /// </returns>
-    public async Task<InstanceMetrics?> GetInstanceMetricsAsync(string id, string? version = null, string? status = null, string? expand = null, CancellationToken cancellationToken = default)
+    public async Task<InstanceMetrics?> GetInstanceMetricsAsync(CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = await service.GetInstanceMetricsAsync(id, version, status, expand, cancellationToken);
+        var res = await GetFromJsonAsync<InstanceMetricsModel>("rest/api/instance-metrics", cancellationToken);
         return res.CastModel<InstanceMetrics>();
     }
 
     #endregion
 
+    // Label
+    // Long Task
+    // Search
+    // Server Information
+
     #region Space
 
     public async Task<Content?> GetRootContentInSpaceAsync(string spaceKey, Expand? expand = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = await service.GetRootContentInSpaceAsync(spaceKey, expand, cancellationToken);
-        return res.CastModel<Content>();
+        var req = CombineUrl("/rest/api/space", spaceKey, "content", ("depth", Depth.Root), ("expand", expand));
+        var res = await GetFromJsonAsync<PageListModel<ContentModel>>(req, cancellationToken);
+        return res?.Page?.Results?.FirstOrDefault().CastModel<Content>();
     }
 
     /// <summary>
@@ -538,9 +578,10 @@ public sealed class Confluence : IDisposable
     /// <returns>An asynchronous stream of <see cref="Content"/> objects in the space.</returns>
     public async IAsyncEnumerable<Content> GetContentsInSpaceAsync(string spaceKey, Depth depth = Depth.All, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.GetContentsInSpaceAsync(spaceKey, depth, expand, cancellationToken);
+        var req = CombineUrl("/rest/api/space", spaceKey, "content", ("depth", depth), ("expand", expand));
+        var res = GetPageListYieldAsync<ContentModel>(req, cancellationToken);
         await foreach (var item in res)
         {
             yield return item.CastModel<Content>()!;
@@ -557,13 +598,13 @@ public sealed class Confluence : IDisposable
     /// <returns>An asynchronous stream of <see cref="Content"/> objects of the specified type.</returns>
     public async IAsyncEnumerable<Content> GetContentsByTypeAsync(string spaceKey, Types type = Types.page, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = service.GetContentsByTypeAsync(spaceKey, type, expand, cancellationToken);
+
+        var req = CombineUrl("/rest/api/space", spaceKey, "content/page", ("type", type), ("expand", expand));
+        var res = GetResultListYieldAsync<ContentModel>(req, cancellationToken);
         await foreach (var item in res)
         {
-            //if (cancellationToken.IsCancellationRequested) yield break;
-
             yield return item.CastModel<Content>()!;
         }
     }
@@ -577,10 +618,11 @@ public sealed class Confluence : IDisposable
     /// <returns>A <see cref="Space"/> object representing the space, or <c>null</c> if not found.</returns>
     public async Task<Space?> GetSpaceAsync(string spaceKey, string? expand = null, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = await service.GetSpaceAsync(spaceKey, expand, cancellationToken);
-        return res.CastModel<Space>(); 
+        var req = CombineUrl("/rest/api/space", spaceKey, ("expand", expand));
+        var res = await GetFromJsonAsync<SpaceModel>(req, cancellationToken);
+        return res.CastModel<Space>();
     }
 
     /// <summary>
@@ -590,12 +632,19 @@ public sealed class Confluence : IDisposable
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     public async Task DeleteSpaceAsync(string spaceKey, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        await service.DeleteSpaceAsync(spaceKey, cancellationToken);
+        var req = CombineUrl("/rest/api/space", spaceKey);
+        await DeleteAsync(req, cancellationToken);
     }
 
     #endregion
+
+    // Space Label
+    // Space Permissions
+    // Space Property
+    // Space Watchers
+    // SpaceColorScheme
 
     #region User
 
@@ -606,14 +655,16 @@ public sealed class Confluence : IDisposable
     /// <returns>A <see cref="User"/> object representing the current user, or <c>null</c> if not found.</returns>
     public async Task<User?> GetCurrentUserAsync(CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        var res = await service.GetCurrentUserAsync(cancellationToken);
+        var res = await GetFromJsonAsync<UserModel>("/rest/api/user/current", cancellationToken);
         return res.CastModel<User>();
     }
 
     #endregion
-    
+
+    // User Group
+
     #region Export
 
     /// <summary>
@@ -624,9 +675,10 @@ public sealed class Confluence : IDisposable
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     public async Task ExportPdfAsync(int pageId, string filePath, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
+        ArgumentNullException.ThrowIfNullOrEmpty(filePath, nameof(filePath));
 
-        await service.ExportPdfAsync(pageId, filePath, cancellationToken);
+        await DownloadLocationAsync($"spaces/flyingpdf/pdfpageexport.action?pageId={pageId}", filePath, cancellationToken);
     }
 
     /// <summary>
@@ -637,9 +689,122 @@ public sealed class Confluence : IDisposable
     /// <returns>A <see cref="Stream"/> containing the exported PDF data.</returns>
     public async Task<Stream> ExportPdfStreamAsync(int pageId, CancellationToken cancellationToken = default)
     {
-        WebServiceException.ThrowIfNullOrNotConnected(service);
+        WebServiceException.ThrowIfNotConnected(client);
 
-        return await service.ExportPdfStreamAsync(pageId, cancellationToken);
+        return await GetFromStreamAsync($"spaces/flyingpdf/pdfpageexport.action?pageId={pageId}", cancellationToken);
+    }
+
+    public async Task ExportWordAsync(int pageId, string filePath, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNotConnected(client);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageId, nameof(pageId));
+        ArgumentNullException.ThrowIfNullOrEmpty(filePath, nameof(filePath));
+
+        await DownloadLocationAsync($"exportword?pageId={pageId}", filePath, cancellationToken);
+    }
+
+    public async Task<Stream> ExportWordStreamAsync(int pageId, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNotConnected(client);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(pageId, nameof(pageId));
+
+        return await GetFromStreamAsync($"exportword?pageId={pageId}", cancellationToken);
+    }
+
+    #endregion
+
+    #region private
+
+    protected override string QueryEntry((string Name, object? Value) entry)
+    {
+        if (entry.Value?.GetType() == typeof(Expand))
+        {
+            if (entry.Value == null) return "";
+
+            if (entry.Value is Expand expand)
+            {
+                return $"{entry.Name}={expand}";
+            }
+        }
+        return base.QueryEntry(entry);
+    }
+
+    private async IAsyncEnumerable<OUT> GetPageListYieldAsync<OUT>(string requestUri, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where OUT : class
+    {
+        string uri = requestUri;
+        int start = 0;
+        while (true)
+        {
+            PageListModel<OUT>? resp = await GetFromJsonAsync<PageListModel<OUT>>(uri, cancellationToken, memberName);
+            foreach (OUT item in resp!.Page!.Results!)
+            {
+                if (cancellationToken.IsCancellationRequested) yield break;
+                yield return item;
+            }
+
+            if (resp!.Page!.Size < resp!.Page!.Limit) yield break;
+
+            start += resp!.Page!.Size;
+
+            if (resp!.Page!.Size != resp!.Page.Results.Count)
+            {
+                throw new Exception("XXXXXXXXXXXXXX");
+            }
+
+            uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Page.Limit}&start={start}";
+        }
+    }
+
+    private async IAsyncEnumerable<OUT> GetResultListYieldAsync<OUT>(string requestUri, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where OUT : class
+    {
+        string uri = requestUri;
+        int start = 0;
+        while (true)
+        {
+            ResultListModel<OUT>? resp = await GetFromJsonAsync<ResultListModel<OUT>>(uri, cancellationToken, memberName);
+            foreach (OUT item in resp!.Results!)
+            {
+                if (cancellationToken.IsCancellationRequested) yield break;
+                yield return item;
+            }
+
+            if (resp!.Size < resp!.Limit) yield break;
+
+            start += resp!.Size;
+
+            if (resp!.Size != resp!.Results.Count)
+            {
+                throw new Exception("XXXXXXXXXXXXXX");
+            }
+
+            uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Limit}&start={start}";
+        }
+    }
+
+    private async IAsyncEnumerable<OUT> PostResultListYieldAsync<IN, OUT>(string requestUri, IN obj, [EnumeratorCancellation] CancellationToken cancellationToken, [CallerMemberName] string memberName = "") where IN : class where OUT : class
+    {
+        string uri = requestUri;
+        int start = 0;
+        while (true)
+        {
+            ResultListModel<OUT>? resp = await PostAsJsonAsync<IN, ResultListModel<OUT>>(uri, obj, cancellationToken, memberName);
+            foreach (OUT item in resp!.Results!)
+            {
+                if (cancellationToken.IsCancellationRequested) yield break;
+                yield return item;
+            }
+
+            if (resp!.Size < resp!.Limit) yield break;
+
+            start += resp!.Size;
+
+            if (resp!.Size != resp!.Results.Count)
+            {
+                throw new Exception("XXXXXXXXXXXXXX");
+            }
+
+            uri = requestUri + (requestUri.Contains('?') ? "&" : "?") + $"limit={resp.Limit}&start={start}";
+        }
     }
 
     #endregion

@@ -3,8 +3,12 @@
 /// <summary>
 /// Represents a user's profile picture, including its path, dimensions, and default status.
 /// </summary>
+[Model]
 public class ProfilePicture
 {
+    internal ProfilePicture()
+    { }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ProfilePicture"/> class using the specified <see cref="ProfilePictureModel"/>.
     /// </summary>

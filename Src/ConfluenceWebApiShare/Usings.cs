@@ -6,8 +6,8 @@ global using System.Text;
 global using System.Threading.Tasks;
 
 global using WebServiceClient;
+global using WebServiceClient.Attributes;
 global using WebServiceClient.Authenticator;
 global using WebServiceClient.Store;
 
-global using ConfluenceWebApi.Service;
-global using ConfluenceWebApi.Service.Model;
+global using ConfluenceWebApi.Model;

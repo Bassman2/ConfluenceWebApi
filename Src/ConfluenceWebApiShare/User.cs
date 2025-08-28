@@ -3,8 +3,12 @@
 /// <summary>
 /// Represents a Confluence user with basic profile information.
 /// </summary>
+[Model]
 public class User
 {
+    internal User() 
+    { }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="User"/> class from a <see cref="UserModel"/>.
     /// </summary>

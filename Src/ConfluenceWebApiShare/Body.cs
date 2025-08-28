@@ -28,15 +28,15 @@ public class Body
         };
     }
 
-    public ValueRepresentation? Storage { get; set; }
+    public ValueRepresentation? Storage { get; internal init; }
 
-    public ValueRepresentation? Editor { get; set; }
+    public ValueRepresentation? Editor { get; internal init; }
 
-    public ValueRepresentation? View { get; set; }
+    public ValueRepresentation? View { get; internal init; }
 
-    public ValueRepresentation? ExportView { get; set; }
+    public ValueRepresentation? ExportView { get; internal init; }
 
-    public ValueRepresentation? AnonymousExportView { get; set; }
+    public ValueRepresentation? AnonymousExportView { get; internal init; }
 
-    public ValueRepresentation? StyledView { get; set; }
+    public ValueRepresentation? StyledView { get; internal init; }
 }

@@ -1,7 +1,11 @@
 ﻿namespace ConfluenceWebApi;
 
+[Model]
 public class Version
 {
+    internal Version()
+    { } 
+
     internal Version(VersionModel model)
     {
         By = model.By.CastModel<User>();
@@ -10,7 +14,7 @@ public class Version
         Number = model.Number;
         MinorEdit = model.MinorEdit;
         Hidden = model.Hidden;
-        Content = model.Content.CastModel<Content>();
+       // Content = model.Content.CastModel<Content>();
     }
 
     public User? By { get; set; }
@@ -25,5 +29,5 @@ public class Version
 
     public bool Hidden { get; set; }
 
-    public Content? Content { get; set; }
+    //public Content? Content { get; set; }
 }
