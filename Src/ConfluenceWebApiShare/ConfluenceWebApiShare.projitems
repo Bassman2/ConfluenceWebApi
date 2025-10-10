@@ -80,8 +80,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\ProfilePictureModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SourceGenerationContext.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ConfluenceModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ConfluenceService_old.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Confluence_old.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\SpaceModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\UserModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Space.cs" />
