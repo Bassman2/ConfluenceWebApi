@@ -2,14 +2,14 @@
 _layout: landing
 ---
 
-## JenkinsWebApi 
+## ConfluenceWebApi 
 
-JenkinsWebApi is a .NET API for the Jenkins web service.	
+ConfluenceWebApi is a .NET API for the Confluence web service.	
 		
 ### Getting Started
 
 
-To get started, add the JenkinsWebApi package to your project.
+To get started, add the ConfluenceWebApi package to your project.
 
 
 
