@@ -11,13 +11,20 @@ public sealed class Confluence : JsonService
     public Confluence(Uri host, IAuthenticator? authenticator, string appName) : base(host, authenticator, appName, SourceGenerationContext.Default)
     { }
 
-    protected override string? AuthenticationTestUrl => null;
-
-    protected override void InitializeClient(HttpClient client)
+    /// <summary>
+    /// Configures the provided <see cref="HttpClient"/> instance with specific default headers required for API requests.
+    /// This includes setting the User-Agent, Accept, and API version headers.
+    /// </summary>
+    /// <param name="client">The <see cref="HttpClient"/> to configure for GitHub API usage.</param>
+    /// <param name="appName">The name of the application, used as the User-Agent header value.</param>
+    protected override void InitializeClient(HttpClient client, string appName)
     {
-        base.InitializeClient(client);
+        client.DefaultRequestHeaders.Add("User-Agent", appName);
+        client.DefaultRequestHeaders.Add("Accept", "application/json");
         client.DefaultRequestHeaders.Add("X-Atlassian-Token", "no-check");
     }
+
+    protected override string? AuthenticationTestUrl => null;
 
     protected override async Task ErrorHandlingAsync(HttpResponseMessage response, string memberName, CancellationToken cancellationToken)
     {
