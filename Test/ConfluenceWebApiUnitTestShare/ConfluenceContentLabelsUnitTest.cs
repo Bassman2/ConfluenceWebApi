@@ -11,7 +11,8 @@ public class ConfluenceContentLabelsUnitTest : ConfluenceBaseUnitTest
         Assert.IsNotNull(labels);
         var list = await labels.ToListAsync();
         Assert.IsNotNull(list);
-        Assert.AreEqual(4, list.Count, "count");
+        Assert.HasCount(4, list, "count");
+        //Assert.AreEqual(4, list.Count, "count");
 
         var item0 = list[0];
         Assert.IsNotNull(item0);

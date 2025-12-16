@@ -2,19 +2,15 @@
   <Folder Name="/Demo/">
     <Project Path="Demo/LabelRemover/LabelRemover.csproj" />
   </Folder>
-  <Folder Name="/Doc/">
-    <Project Path="Doc/ConfluenceWebApiDoc/ConfluenceWebApiDoc.shfbproj" Type="7cf6df6d-3b04-46f8-a40b-537d21bca0b4" Id="363e3d27-872e-49d9-bb39-cc373429321b">
-      <BuildDependency Project="Src/ConfluenceWebApi80/ConfluenceWebApi80.csproj" />
-      <BuildDependency Project="Src/ConfluenceWebApi90/ConfluenceWebApi90.csproj" />
-    </Project>
-  </Folder>
   <Folder Name="/Src/">
     <Project Path="../WebServiceClient/Src/WebServiceClientShare/WebServiceClientShare.shproj" />
+    <Project Path="Src/ConfluenceWebApi100/ConfluenceWebApi100.csproj" />
     <Project Path="Src/ConfluenceWebApi80/ConfluenceWebApi80.csproj" />
     <Project Path="Src/ConfluenceWebApi90/ConfluenceWebApi90.csproj" />
     <Project Path="Src/ConfluenceWebApiShare/ConfluenceWebApiShare.shproj" />
   </Folder>
   <Folder Name="/Test/">
+    <Project Path="Test/ConfluenceWebApiUnitTest100/ConfluenceWebApiUnitTest100.csproj" />
     <Project Path="Test/ConfluenceWebApiUnitTest80/ConfluenceWebApiUnitTest80.csproj" />
     <Project Path="Test/ConfluenceWebApiUnitTest90/ConfluenceWebApiUnitTest90.csproj" />
     <Project Path="Test/ConfluenceWebApiUnitTestShare/ConfluenceWebApiUnitTestShare.shproj" />
