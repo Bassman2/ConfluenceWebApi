@@ -10,7 +10,17 @@ public class XhtmlSpace() : XhtmlElement
     public override string? ToString() => "<p><br/></p>";
 }
 
+public class XhtmlNoneBreakableSpace() : XhtmlElement
+{
+    public override string? ToString() => "&nbsp;";
+}
+
 public class XhtmlNewline() : XhtmlElement
 {
     public override string? ToString() => "<br/>";
+}
+
+public class XhtmlParagraph(params XhtmlElement[] elements) : XhtmlElement(elements)
+{
+    public override string ToString() => $"<p>{ChildrenText}</p>";
 }
