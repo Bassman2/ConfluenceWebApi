@@ -24,3 +24,8 @@ public class XhtmlParagraph(params XhtmlElement[] elements) : XhtmlElement(eleme
 {
     public override string ToString() => $"<p>{ChildrenText}</p>";
 }
+
+public class XhtmlDate(DateTime dateTime) : XhtmlElement
+{
+    public override string ToString() => $"<time datetime = \"{dateTime:yyyy-MM-dd}\" />";
+}
