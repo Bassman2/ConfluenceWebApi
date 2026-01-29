@@ -14,7 +14,7 @@ public class XhtmlElement(params XhtmlElement[] elements)
     public string DataHighlightColour { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
 
-    protected string Attributes =>
+    protected virtual string Attributes =>
         (string.IsNullOrEmpty(Class) ? "" : $" class=\"{Class}\"") +
         (string.IsNullOrEmpty(Style) ? "" : $" style=\"{Style}\"") +
         (string.IsNullOrEmpty(Scope) ? "" : $" scope=\"{Scope}\"") +

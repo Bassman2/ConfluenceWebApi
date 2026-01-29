@@ -27,6 +27,11 @@ public class XhtmlTableHeadingCell(params XhtmlElement[] elements) : XhtmlTableC
 }
 public class XhtmlTableCell(params XhtmlElement[] elements) : XhtmlElement(elements)
 {
+    public int Colspan = 0;
+
+    protected override string Attributes => base.Attributes +
+        (Colspan == 0 ? "" : $" colspan=\"{Colspan}\"");
+
     public override string ToString() => $"<td{Attributes}>{ChildrenText}</td>";
 }
 
