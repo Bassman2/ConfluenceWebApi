@@ -22,7 +22,12 @@ public class XhtmlNewline() : XhtmlElement
 
 public class XhtmlParagraph(params XhtmlElement[] elements) : XhtmlElement(elements)
 {
-    public override string ToString() => $"<p>{ChildrenText}</p>";
+    public override string ToString() => $"<p{Attributes}>{ChildrenText}</p>";
+}
+
+public class XhtmlDiv(params XhtmlElement[] elements) : XhtmlElement(elements)
+{
+    public override string ToString() => $"<div{Attributes}>{ChildrenText}</div>";
 }
 
 public class XhtmlDate(DateTime dateTime) : XhtmlElement

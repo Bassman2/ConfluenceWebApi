@@ -1,8 +1,18 @@
 ﻿namespace ConfluenceWebApi.Xhtml;
 
-public class XhtmlTable(params XhtmlTableRow[] elements) : XhtmlElement(elements)
+public class XhtmlTable(XhtmlTableColGroup? colGroup, params XhtmlTableRow[] elements) : XhtmlElement(elements)
 {
-    public override string ToString() => $"<table><tbody>{ChildrenText}</tbody></table>";
+    //private XhtmlTableColGroup? colGroup = null;
+
+    public XhtmlTable(params XhtmlTableRow[] elements) : this(null, elements)
+    { }
+
+    //public XhtmlTable(XhtmlTableColGroup colGroup, params XhtmlTableRow[] elements) : base(elements)
+    //{
+    //    this.colGroup = colGroup;
+    //}
+
+    public override string ToString() => $"<table{Attributes}>{colGroup?.ToString() ?? ""}<tbody>{ChildrenText}</tbody></table>";
 }
 
 public class XhtmlTableRow(params XhtmlElement[] elements) : XhtmlElement([.. elements.Select(e => e is XhtmlTableCell ? e : new XhtmlTableCell(e))])
@@ -13,9 +23,21 @@ public class XhtmlTableRow(params XhtmlElement[] elements) : XhtmlElement([.. el
 
 public class XhtmlTableHeadingCell(params XhtmlElement[] elements) : XhtmlTableCell(elements)
 {
-    public override string ToString() => $"<th>{ChildrenText}</th>";
+    public override string ToString() => $"<th{Attributes}>{ChildrenText}</th>";
 }
 public class XhtmlTableCell(params XhtmlElement[] elements) : XhtmlElement(elements)
 {
-    public override string ToString() => $"<td>{ChildrenText}</td>";
+    public override string ToString() => $"<td{Attributes}>{ChildrenText}</td>";
+}
+
+public class XhtmlTableCol(string attr = "") : XhtmlElement
+{
+    public XhtmlTableCol(double width) : this($"style=\"width: {width.ToString("F1", CultureInfo.InvariantCulture)}px;\"") { }
+
+    public override string ToString() => $"<col {attr}/>";
+}
+
+public class XhtmlTableColGroup(params XhtmlTableCol[] elements) : XhtmlElement(elements)
+{
+    public override string ToString() => $"<colgroup>{ChildrenText}</colgroup>";
 }

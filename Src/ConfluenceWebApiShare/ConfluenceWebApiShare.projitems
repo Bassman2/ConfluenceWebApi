@@ -34,7 +34,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlHeading.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlLink.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlMacros.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlStyles.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlTable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlText.cs" />

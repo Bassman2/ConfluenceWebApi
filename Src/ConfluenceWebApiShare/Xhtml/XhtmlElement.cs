@@ -8,6 +8,19 @@
 
 public class XhtmlElement(params XhtmlElement[] elements)
 {
+    public string Class { get; set; } = string.Empty;
+    public string Style { get; set; } = string.Empty;
+    public string Scope { get; set; } = string.Empty;
+    public string DataHighlightColour { get; set; } = string.Empty;
+    public string Title { get; set; } = string.Empty;
+
+    protected string Attributes =>
+        (string.IsNullOrEmpty(Class) ? "" : $" class=\"{Class}\"") +
+        (string.IsNullOrEmpty(Style) ? "" : $" style=\"{Style}\"") +
+        (string.IsNullOrEmpty(Scope) ? "" : $" scope=\"{Scope}\"") +
+        (string.IsNullOrEmpty(DataHighlightColour) ? "" : $" data-highlight-colour=\"{DataHighlightColour}\"") +
+        (string.IsNullOrEmpty(Title) ? "" : $" title=\"{Title}\"");
+
     protected static string CreateGuid => Guid.NewGuid().ToString("D");
     protected string ChildrenText => string.Concat(Children);
 
