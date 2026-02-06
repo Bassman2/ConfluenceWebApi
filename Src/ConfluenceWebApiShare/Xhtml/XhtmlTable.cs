@@ -25,6 +25,7 @@ public class XhtmlTableHeadingCell(params XhtmlElement[] elements) : XhtmlTableC
 {
     public override string ToString() => $"<th{Attributes}>{ChildrenText}</th>";
 }
+
 public class XhtmlTableCell(params XhtmlElement[] elements) : XhtmlElement(elements)
 {
     public int Colspan = 0;
@@ -35,11 +36,9 @@ public class XhtmlTableCell(params XhtmlElement[] elements) : XhtmlElement(eleme
     public override string ToString() => $"<td{Attributes}>{ChildrenText}</td>";
 }
 
-public class XhtmlTableCol(string attr = "") : XhtmlElement
+public class XhtmlTableCol() : XhtmlElement
 {
-    public XhtmlTableCol(double width) : this($"style=\"width: {width.ToString("F1", CultureInfo.InvariantCulture)}px;\"") { }
-
-    public override string ToString() => $"<col {attr}/>";
+    public override string ToString() => $"<col{Attributes}/>";
 }
 
 public class XhtmlTableColGroup(params XhtmlTableCol[] elements) : XhtmlElement(elements)

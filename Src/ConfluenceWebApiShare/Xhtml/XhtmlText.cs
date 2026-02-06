@@ -30,6 +30,11 @@ public class XhtmlDiv(params XhtmlElement[] elements) : XhtmlElement(elements)
     public override string ToString() => $"<div{Attributes}>{ChildrenText}</div>";
 }
 
+public class XhtmlU(params XhtmlElement[] elements) : XhtmlElement(elements)
+{
+    public override string ToString() => $"<u>{ChildrenText}</u>";
+}
+
 public class XhtmlDate(DateTime dateTime) : XhtmlElement
 {
     public override string ToString() => $"<time datetime = \"{dateTime:yyyy-MM-dd}\" />";

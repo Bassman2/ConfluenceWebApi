@@ -33,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlEmojis.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlHeading.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlLink.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlMacros.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlClass.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlStyles.cs" />
