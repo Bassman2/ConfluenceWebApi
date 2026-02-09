@@ -51,6 +51,8 @@ public class Expand
     public static readonly Expand Operations                        /**/ = new("operations");
 
     public static readonly Expand Page                              /**/ = new("page");
+    public static readonly Expand Page_Body                         /**/ = new("page.body");
+    public static readonly Expand Page_Body_View                    /**/ = new("page.body.view");
 
     public static readonly Expand Restrictions                      /**/ = new("restrictions");
     public static readonly Expand Restrictions_Read                 /**/ = new("restrictions.read");
