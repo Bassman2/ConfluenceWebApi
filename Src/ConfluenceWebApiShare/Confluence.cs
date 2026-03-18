@@ -1,5 +1,7 @@
 ﻿namespace ConfluenceWebApi;
 
+// https://developer.atlassian.com/server/confluence/rest/v1100/api-group-content-resource/#api-group-content-resource
+
 /// <summary>
 /// Represents a client for interacting with the Confluence API.
 /// </summary>
