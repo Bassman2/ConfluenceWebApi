@@ -28,7 +28,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)History.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\BodyCast.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\RestrictionResultModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\RestrictionTypeModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ManifestModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\RestrictionActionModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\RestrictionsRestrictionsModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestrictionAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestrictionResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestrictionsRestrictions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestrictionType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlEmojis.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Xhtml\XhtmlHeading.cs" />
