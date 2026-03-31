@@ -720,6 +720,18 @@ public sealed class Confluence : JsonService
         return await GetFromStreamAsync($"exportword?pageId={pageId}", cancellationToken);
     }
 
+    public async Task DownloadAttachmentAsync(string req, string filePath, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNotConnected(client);
+        ArgumentNullException.ThrowIfNullOrEmpty(req, nameof(req));
+
+        //var req = CombineUrl("/download/attachments/", id, fileName);
+
+        await DownloadAsync(req, filePath, cancellationToken);
+    }
+
+    //https://infohub.automotive.elektrobit.com/download/attachments/325271634/atl.site.png?version=1&modificationDate=1763372149066&api=v2
+    //https://infohub.automotive.elektrobit.com/download/attachments/514157196/atl.site.png
     #endregion
 
     #region private

@@ -32,6 +32,8 @@ public class Content
         Metadata = model.Metadata.CastModel<Metadata>();
         Extensions = model.Extensions.CastModel<Extensions>();
         Restrictions = model.Restrictions.CastModel<Restrictions>();
+
+        Download = model.Links?.Download;
     }
 
     internal ContentModel ToModel()
@@ -109,4 +111,6 @@ public class Content
     public Extensions? Extensions { get; set; }
 
     public Restrictions? Restrictions { get; set; }
+
+    public Uri? Download { get; set; }
 }
