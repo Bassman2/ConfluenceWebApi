@@ -4,11 +4,11 @@ public class RestrictionsRestrictions
 {
     internal RestrictionsRestrictions(RestrictionsRestrictionsModel model)
     {
-        Group = model.Group?.CastModel<RestrictionType>();
-        User = model.User?.CastModel<RestrictionType>();
+        Groups = model.Groups?.Results?.CastModel<RestrictionResult>();
+        Users = model.Users?.Results?.CastModel<RestrictionResult>();
     }
 
-    public RestrictionType? Group { get; }
+    public List<RestrictionResult>? Groups { get; }
 
-    public RestrictionType? User { get; }
+    public List<RestrictionResult>? Users { get; }
 }

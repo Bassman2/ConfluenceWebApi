@@ -6,9 +6,15 @@ namespace ConfluenceWebApi.Model;
 
 internal class RestrictionsRestrictionsModel : BaseModel
 {
+    //[JsonPropertyName("group")]
+    //public RestrictionTypeModel? Group { get; set; }
+
+    //[JsonPropertyName("user")]
+    //public RestrictionTypeModel? User { get; set; }
+
     [JsonPropertyName("group")]
-    public RestrictionTypeModel? Group { get; set; }
+    public ResultListModel<RestrictionResultModel>? Groups { get; set; }
 
     [JsonPropertyName("user")]
-    public RestrictionTypeModel? User { get; set; }
+    public ResultListModel<RestrictionResultModel>? Users { get; set; }
 }
