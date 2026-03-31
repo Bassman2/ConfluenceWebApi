@@ -60,6 +60,7 @@ public class Expand
     public static readonly Expand Restrictions_Read_Group           /**/ = new("restrictions.read.restrictions.group");
     public static readonly Expand Restrictions_Read_Group_Results   /**/ = new("restrictions.read.restrictions.group.results");
     public static readonly Expand Restrictions_Read_User            /**/ = new("restrictions.read.restrictions.user");
+    public static readonly Expand Restrictions_Read_User_Results    /**/ = new("restrictions.read.restrictions.user.results");
     public static readonly Expand Restrictions_Update               /**/ = new("restrictions.update");
     public static readonly Expand RestrictionsAll                   /**/ = Restrictions + Restrictions_Read + Restrictions_Update;
 
