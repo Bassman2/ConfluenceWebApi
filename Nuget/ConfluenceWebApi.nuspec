@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>ConfluenceWebApi</id>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <title>Confluence Web Api</title>
     <authors>Ralf Beckers</authors>
     <owners>Ralf Beckers</owners>
@@ -12,7 +12,7 @@
     <projectUrl>https://github.com/Bassman2/ConfluenceWebApi</projectUrl>
     <description>API to communicate with Confluence web service</description>
     <releaseNotes>Creation</releaseNotes>
-    <copyright>Copyright 2025 (c) by Ralf Beckers</copyright>
+    <copyright>Copyright 2025 - 2026 (c) by Ralf Beckers</copyright>
     <repository type="git" url="https://github.com/Bassman2/ConfluenceWebApi"/>
     <tags>API Confluence</tags>
     <readme>docs\README.md</readme>
