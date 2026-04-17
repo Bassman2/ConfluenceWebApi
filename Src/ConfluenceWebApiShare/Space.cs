@@ -23,6 +23,8 @@ public class Space
         Homepage = model.Homepage.CastModel<Content>();
         Type = model.Type;
         Metadata = model.Metadata.CastModel<Metadata>(); 
+        Creator = model.Creator.CastModel<User>();
+        CreationDate = model.CreationDate;
     }
 
     internal SpaceModel ToModel()
@@ -63,4 +65,8 @@ public class Space
     public Types? Type { get; set; }
 
     public Metadata? Metadata { get; set; }
+
+    public User? Creator { get; set; }
+
+    public DateTime? CreationDate { get; set; }
 }

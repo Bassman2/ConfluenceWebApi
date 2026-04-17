@@ -43,4 +43,10 @@ internal class SpaceModel : BaseModel
 
     [JsonPropertyName("metadata")]
     public MetadataModel? Metadata { get; set; }
+
+    [JsonPropertyName("creator")]
+    public UserModel? Creator { get; set; }
+
+    [JsonPropertyName("creationDate")]
+    public DateTime? CreationDate { get; set; }
 }
