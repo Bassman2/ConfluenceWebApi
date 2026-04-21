@@ -113,4 +113,5 @@ public class Content
     public Restrictions? Restrictions { get; set; }
 
     public Uri? Download { get; set; }
+    public string? Links { get; set; }
 }
