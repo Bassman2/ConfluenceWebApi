@@ -730,6 +730,14 @@ public sealed class Confluence : JsonService
         await DownloadAsync(req, filePath, cancellationToken);
     }
 
+    public async Task<Stream> GetAttachmentStreamAsync(string req, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNotConnected(client);
+        ArgumentNullException.ThrowIfNullOrEmpty(req, nameof(req));
+
+        return await GetFromStreamAsync(req, cancellationToken);
+    }
+
     //https://infohub.automotive.elektrobit.com/download/attachments/325271634/atl.site.png?version=1&modificationDate=1763372149066&api=v2
     //https://infohub.automotive.elektrobit.com/download/attachments/514157196/atl.site.png
     #endregion
