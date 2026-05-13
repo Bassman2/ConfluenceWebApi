@@ -13,6 +13,9 @@ public sealed class Confluence : JsonService
     public Confluence(Uri host, IAuthenticator? authenticator, string appName) : base(host, authenticator, appName, SourceGenerationContext.Default)
     { }
 
+    public Confluence(Uri host, string token, string appName) : base(host, new BearerAuthenticator(token), appName, SourceGenerationContext.Default)
+    { }
+
     /// <summary>
     /// Configures the provided <see cref="HttpClient"/> instance with specific default headers required for API requests.
     /// This includes setting the User-Agent, Accept, and API version headers.
