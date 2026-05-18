@@ -412,7 +412,7 @@ public sealed class Confluence : JsonService
     /// <returns>
     /// An asynchronous stream of <see cref="Content"/> objects matching the specified criteria, or <c>null</c> if no content is found.
     /// </returns>
-    public async IAsyncEnumerable<Content?> GetContentAsync(string spaceKey, DateTime? postingDay = null, string? title = null, string? type = null, string? status = null, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content?> GetContentAsync(string spaceKey, DateTime? postingDay = null, string? title = null, string? type = null, string? status = null, Expand? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -504,7 +504,7 @@ public sealed class Confluence : JsonService
     /// <returns>
     /// An asynchronous stream of <see cref="Content"/> objects that match the specified CQL query.
     /// </returns>
-    public async IAsyncEnumerable<Content> SearchContentAsync(string cql, string? cqlcontext = null, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> SearchContentAsync(string cql, string? cqlcontext = null, Expand? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
