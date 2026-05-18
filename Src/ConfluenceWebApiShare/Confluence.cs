@@ -85,7 +85,7 @@ public sealed class Confluence : JsonService
     /// <returns>
     /// An asynchronous stream of <see cref="Content"/> objects associated with the specified content item.
     /// </returns>
-    public async IAsyncEnumerable<Content> GetAttachmentAsync(string id, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetAttachmentAsync(string id, Expand? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -107,7 +107,7 @@ public sealed class Confluence : JsonService
     /// <returns>
     /// A task that represents the asynchronous operation. The task result contains an <see cref="Content"/> object representing the created attachment, or <c>null</c> if creation failed.
     /// </returns>
-    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, string? expand = null, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, IEnumerable<KeyValuePair<string, System.IO.Stream>> files, Expand? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -116,7 +116,7 @@ public sealed class Confluence : JsonService
         return res?.Results.CastModel<Content>();
     }
 
-    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, IEnumerable<(string fileName, string filePath)> files, string? expand = null, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, IEnumerable<(string fileName, string filePath)> files, Expand? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -127,7 +127,7 @@ public sealed class Confluence : JsonService
         return res?.Results.CastModel<Content>();
     }
 
-    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, string fileName, string filePath, string? expand = null, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, string fileName, string filePath, Expand? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -141,7 +141,7 @@ public sealed class Confluence : JsonService
         return res?.Results.CastModel<Content>();
     }
 
-    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, string fileName, Stream fileStream, string? expand = null, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Content>?> CreateAttachmentAsync(string id, string fileName, Stream fileStream, Expand? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -245,7 +245,7 @@ public sealed class Confluence : JsonService
     /// <returns>
     /// An asynchronous stream of <see cref="Content"/> objects representing the direct children of the specified type.
     /// </returns>
-    public async IAsyncEnumerable<Content> GetChildrenOfContentByTypeAsync(string id, string type, int parentVersion, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetChildrenOfContentByTypeAsync(string id, string type, int parentVersion, Expand? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -270,7 +270,7 @@ public sealed class Confluence : JsonService
     /// <returns>
     /// An asynchronous stream of <see cref="Content"/> objects representing the comments associated with the specified content item.
     /// </returns>
-    public async IAsyncEnumerable<Content> GetCommentsOfContentAsync(string id, string depth, Locations? location, int parentVersion, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetCommentsOfContentAsync(string id, string depth, Locations? location, int parentVersion, Expand? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -298,7 +298,7 @@ public sealed class Confluence : JsonService
     /// <returns>
     /// An asynchronous stream of <see cref="Content"/> objects representing the descendant content items.
     /// </returns>
-    public async IAsyncEnumerable<Content> GetDescendantsAsync(string id, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetDescendantsAsync(string id, Expand? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -320,7 +320,7 @@ public sealed class Confluence : JsonService
     /// <returns>
     /// An asynchronous stream of <see cref="Content"/> objects representing the descendant content items of the specified type.
     /// </returns>
-    public async IAsyncEnumerable<Content> GetDescendantsOfTypeAsync(string id, string type, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetDescendantsOfTypeAsync(string id, string type, Expand? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -588,7 +588,7 @@ public sealed class Confluence : JsonService
     /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>An asynchronous stream of <see cref="Content"/> objects in the space.</returns>
-    public async IAsyncEnumerable<Content> GetContentsInSpaceAsync(string spaceKey, Depth depth = Depth.All, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetContentsInSpaceAsync(string spaceKey, Depth depth = Depth.All, Expand? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -608,7 +608,7 @@ public sealed class Confluence : JsonService
     /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>An asynchronous stream of <see cref="Content"/> objects of the specified type.</returns>
-    public async IAsyncEnumerable<Content> GetContentsByTypeAsync(string spaceKey, Types type = Types.page, string? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public async IAsyncEnumerable<Content> GetContentsByTypeAsync(string spaceKey, Types type = Types.page, Expand? expand = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
@@ -628,7 +628,7 @@ public sealed class Confluence : JsonService
     /// <param name="expand">Optional. A comma-separated list of properties to expand in the response.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A <see cref="Space"/> object representing the space, or <c>null</c> if not found.</returns>
-    public async Task<Space?> GetSpaceAsync(string spaceKey, string? expand = null, CancellationToken cancellationToken = default)
+    public async Task<Space?> GetSpaceAsync(string spaceKey, Expand? expand = null, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);
 
