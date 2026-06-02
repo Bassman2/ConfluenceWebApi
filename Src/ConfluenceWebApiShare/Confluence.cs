@@ -25,7 +25,7 @@ public sealed class Confluence : JsonService
     protected override void InitializeClient(HttpClient client, string appName)
     {
         client.DefaultRequestHeaders.Add("User-Agent", appName);
-        client.DefaultRequestHeaders.Add("Accept", "application/json");
+        client.DefaultRequestHeaders.Add("Accept", "application/json, image/png");  
         client.DefaultRequestHeaders.Add("X-Atlassian-Token", "no-check");
     }
 
