@@ -215,26 +215,6 @@ public sealed class Confluence : JsonService
 
     #region Child Content
 
-    ///// <summary>
-    ///// Retrieves the direct child content items for a specified Confluence content item and version.
-    ///// </summary>
-    ///// <param name="id">The unique identifier of the parent content item whose children are to be retrieved.</param>
-    ///// <param name="parentVersion">The version of the parent content item for which to retrieve children.</param>
-    ///// <param name="expand">Optional. A comma-separated list of properties to expand in the response (e.g., "children", "ancestors").</param>
-    ///// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    ///// <returns>
-    ///// An asynchronous stream of <see cref="Content"/> objects representing the direct children of the specified content item.
-    ///// </returns>
-    //public async Task<Children?> GetChildrenOfContentAsync_old(string id, int? parentVersion = null, Expand? expand = null, CancellationToken cancellationToken = default)
-    //{
-    //    WebServiceException.ThrowIfNotConnected(client);
-
-    //    var req = CombineUrl("rest/api/content", id, "child", ("parentVersion", parentVersion), ("expand", expand));
-    //    var res = await GetFromJsonAsync<ChildrenModel>(req, cancellationToken);
-    //    return res.CastModel<Children>();
-    //}
-
-
     /// <summary>
     /// Asynchronously retrieves the direct child content items for a specified Confluence content item.
     /// </summary>

@@ -7,7 +7,7 @@ public class ConfluenceChildContentUnitTest : ConfluenceBaseUnitTest
     public async Task TestMethodGetChildrenOfContentAsync()
     {
         using var confluence = new Confluence(storeKey, appName);
-        var item = await confluence.GetChildrenOfContentAsync("478101610", null, Expand.Children + Expand.Attachment + Expand.Comment + Expand.Page);
+        var item = await confluence.GetChildrenOfContentAsync("478101610", null, Expand.Children + Expand.Attachment + Expand.Comment + Expand.Page).ToListAsync();
         Assert.IsNotNull(item);
         //var list = await children.ToListAsync();
         //Assert.IsNotNull(list);
