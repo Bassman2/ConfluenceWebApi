@@ -302,7 +302,25 @@ public sealed class Confluence : JsonService
     #endregion
 
     // Content Blueprint
-    // Content Body
+
+    #region Content Body
+
+    public async Task<string?> ConvertBodyAsync(string baseFormat, string content, string resultFormat, CancellationToken cancellationToken = default)
+    {
+        WebServiceException.ThrowIfNotConnected(client);
+
+        ConvertBodyModel requestModel = new()
+        {
+            Representation = baseFormat,
+            Value = content
+        };  
+
+        var req = CombineUrl("/rest/api/contentbody/convert", resultFormat);
+        var res = await PostAsJsonAsync<ConvertBodyModel, ConvertBodyModel>(req, requestModel, cancellationToken);
+        return res?.Value;
+    }
+
+    #endregion
 
     #region Content Descendant
 

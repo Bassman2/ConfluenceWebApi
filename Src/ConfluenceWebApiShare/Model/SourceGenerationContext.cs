@@ -30,6 +30,10 @@
 
 [JsonSerializable(typeof(ManifestModel))]
 [JsonSerializable(typeof(VersionModel))]
+
+[JsonSerializable(typeof(ConvertBodyModel))]
+
 internal partial class SourceGenerationContext : JsonSerializerContext
 {
+
 }

@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)History.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\BodyCast.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\ConvertBodyModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\RestrictionResultModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\RestrictionTypeModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ManifestModel.cs" />
