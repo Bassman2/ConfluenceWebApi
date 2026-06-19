@@ -305,6 +305,17 @@ public sealed class Confluence : JsonService
 
     #region Content Body
 
+    /// <summary>
+    /// Converts content body markup from one Confluence representation format to another.
+    /// </summary>
+    /// <param name="baseFormat">The source representation format of the input content (for example, "storage").</param>
+    /// <param name="content">The content body value to convert.</param>
+    /// <param name="resultFormat">The target representation format to convert to (for example, "export_view").</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>
+    /// A task that represents the asynchronous conversion operation. The task result contains the converted body value,
+    /// or <c>null</c> if no value is returned by the API.
+    /// </returns>
     public async Task<string?> ConvertBodyAsync(string baseFormat, string content, string resultFormat, CancellationToken cancellationToken = default)
     {
         WebServiceException.ThrowIfNotConnected(client);

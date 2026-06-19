@@ -32,9 +32,9 @@ public class Body
 
     public ValueRepresentation? Editor { get; internal init; }
 
-    public ValueRepresentation? View { get; init; }
+    public ValueRepresentation? View { get; internal init; }
 
-    public ValueRepresentation? ExportView { get; init; }
+    public ValueRepresentation? ExportView { get; internal init; }
 
     public ValueRepresentation? AnonymousExportView { get; internal init; }
 
